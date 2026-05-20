@@ -60,6 +60,52 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// ==========================================
+// MONITOR AUTH STATE & UPDATE NAV BAR
+// ==========================================
+async function checkUserSession() {
+  // Get the currently logged-in user from local storage token
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Find the login link in your navigation menu
+  // In your wears.html image, line 30 is: <li><a href="login.html">Log In</a></li>
+  // Let's target the anchor tag inside the list items dynamically
+  const navLinks = document.querySelectorAll(".main-nav ul li a");
+  
+  let loginLink = null;
+  navLinks.forEach(link => {
+    if (link.textContent.trim() === "Log In" || link.textContent.trim() === "Log Out") {
+      loginLink = link;
+    }
+  });
+
+  if (user) {
+    console.log("Logged in user:", user.email);
+    // 1. If user exists, change "Log In" to "Log Out"
+    if (loginLink) {
+      loginLink.textContent = "Log Out";
+      loginLink.href = "#"; // Prevent navigating to login page
+      
+      // 2. Add click event listener to log them out safely
+      loginLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        await supabase.auth.signOut();
+        alert("Logged out successfully!");
+        window.location.reload(); // Refresh to reset state
+      });
+    }
+  } else {
+    console.log("No active user session.");
+    if (loginLink) {
+      loginLink.textContent = "Log In";
+      loginLink.href = "login.html";
+    }
+  }
+}
+
+// Call the function immediately when any page loads
+checkUserSession();
+
 
 // Main JavaScript for all pages
 document.addEventListener("DOMContentLoaded", function () {
