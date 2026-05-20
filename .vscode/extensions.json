@@ -2,6 +2,7 @@
     "recommendations": [
         "iamgautamsuthar.offline-ai",
         "github.copilot-chat",
-        "locofy.locofy-vs-code-extension"
+        "locofy.locofy-vs-code-extension",
+        "rvest.vs-code-prettier-eslint"
     ]
 }
