@@ -1,3 +1,66 @@
+// 1. Initialize Supabase Client
+const SUPABASE_URL = "https://rzfnqpclwyjnesdoowve.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_COPIED_PUBLIC_ANON_KEY"; // Replace with your actual key
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Wait for the HTML DOM to load before grabbing elements
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // ==========================================
+  // HANDLE USER REGISTRATION (Signup)
+  // ==========================================
+  const registerForm = document.getElementById("register-form");
+  if (registerForm) {
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Stop page refresh
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Call Supabase auth signup
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        alert("Registration failed: " + error.message);
+      } else {
+        alert("Account created successfully! Welcome to BuyIt.");
+        window.location.href = "login.html"; // Redirect to login page
+      }
+    });
+  }
+
+  // ==========================================
+  // HANDLE USER LOGIN
+  // ==========================================
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Stop page refresh
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Call Supabase auth login
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        alert("Login failed: " + error.message);
+      } else {
+        alert("Welcome back!");
+        window.location.href = "index.html"; // Redirect to homepage
+      }
+    });
+  }
+});
+
+
 // Main JavaScript for all pages
 document.addEventListener("DOMContentLoaded", function () {
 
