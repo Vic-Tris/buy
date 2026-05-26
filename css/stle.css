@@ -404,7 +404,7 @@ textarea {
   background-color: rgba(242, 101, 34, 0.06);
 }
 
-/* Dropdown */
+/* Dropdown 
 .has-dropdown > a {
   cursor: pointer;
 }
@@ -452,6 +452,36 @@ textarea {
 .has-dropdown .dropdown li a:hover {
   background-color: rgba(255, 255, 255, 0.08);
   color: var(--color-accent);
+}*/
+.caty {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md, 20px);
+}
+
+.caty h1{
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: underline;
+  color: rgb(80, 235, 80);
+}
+.categories{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+.categories li a:hover{
+  background-color: rgb(80, 235, 80);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: .1rem;
 }
 
 /* Header Actions: Search + Cart */
@@ -522,6 +552,80 @@ textarea {
 
 .srch button:active {
   transform: scale(0.98);
+}
+
+/* --- Seamless Search UI Enhancements --- */
+
+/* The main section wrapper alignment */
+
+/* Hidden utility state */
+.search-results-container.hidden {
+  display: none !important;
+}
+
+/* Styled container for specific item hits */
+#search-results {
+  background-color: #f9f9f9;
+  border-left: 4px solid rgb(80, 235, 80);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.results-heading {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Flex rows/Grid for showing specific goods results */
+.results-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  min-width: 220px;
+  flex-grow: 1;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.result-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-color: rgb(80, 235, 80);
+}
+
+.item-name {
+  font-weight: 500;
+}
+
+/* Miniature subtle category pill badge */
+.item-cat-badge {
+  font-size: 0.75rem;
+  background-color: rgba(80, 235, 80, 0.15);
+  color: #226622;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.no-results {
+  color: #666;
+  font-style: italic;
+  padding: 0.5rem 0;
 }
 
 /* Cart Icon */

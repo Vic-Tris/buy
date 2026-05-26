@@ -1,446 +1,86 @@
-// 1. Initialize Supabase Client
-const SUPABASE_URL = "https://rzfnqpclwyjnesdoowve.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_COPIED_PUBLIC_ANON_KEY"; // Replace with your actual key
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Target UI Elements
+  const searchForm = document.getElementById('search-form');
+  const searchInput = document.getElementById('search');
+  const searchResultsContainer = document.getElementById('search-results');
+  const categoryGrid = document.querySelector('.categories');
+  const categoryItems = document.querySelectorAll('.categories li');
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // 2. Mock Database Data for Goods/Products
+  // (You can easily map this over to fetch from your Supabase instance later!)
+  const sampleProducts = [
+    { name: 'Apples', category: 'Fresh Produce', link: 'fresh.html' },
+    { name: 'Bananas', category: 'Fresh Produce', link: 'fresh.html' },
+    { name: 'Beef Steak', category: 'Meat & Seafood', link: 'meat_seafood.html' },
+    { name: 'Cheddar Cheese', category: 'Dairy & Eggs', link: 'dairy_eggs.html' },
+    { name: 'Chocolate Chip Cookies', category: 'Snacks & Confectionery', link: 'snacks.html' },
+    { name: 'Smartphone Pro', category: 'Electronics & Gadgets', link: 'phones.html' },
+    { name: 'Denim Jacket', category: 'Clothing & Accessories', link: 'wears.html' },
+    { name: 'Blender 5000', category: 'Kitchen Utensils', link: 'kitchen.html' }
+  ];
 
-// Wait for the HTML DOM to load before grabbing elements
-document.addEventListener("DOMContentLoaded", () => {
-  
-  // ==========================================
-  // HANDLE USER REGISTRATION (Signup)
-  // ==========================================
-  const registerForm = document.getElementById("register-form");
-  if (registerForm) {
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // Stop page refresh
+  // 3. Search Handler Function
+  function executeSearch() {
+    const query = searchInput.value.toLowerCase().trim();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    // If input is empty, reset the view entirely
+    if (query === '') {
+      searchResultsContainer.classList.add('hidden');
+      searchResultsContainer.innerHTML = '';
+      categoryGrid.style.display = 'grid';
+      categoryItems.forEach(item => item.style.display = 'block');
+      return;
+    }
 
-      // Call Supabase auth signup
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        alert("Registration failed: " + error.message);
+    // --- Part A: Filter Categories on Screen ---
+    let visibleCategoriesCount = 0;
+    categoryItems.forEach(item => {
+      const categoryText = item.textContent.toLowerCase();
+      if (categoryText.includes(query)) {
+        item.style.display = 'block';
+        visibleCategoriesCount++;
       } else {
-        alert("Account created successfully! Welcome to BuyIt.");
-        window.location.href = "login.html"; // Redirect to login page
+        item.style.display = 'none';
       }
     });
-  }
 
-  // ==========================================
-  // HANDLE USER LOGIN
-  // ==========================================
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // Stop page refresh
+    // --- Part B: Search for Specific Goods ---
+    const matchedProducts = sampleProducts.filter(product => 
+      product.name.toLowerCase().includes(query) || 
+      product.category.toLowerCase().includes(query)
+    );
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      // Call Supabase auth login
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        alert("Login failed: " + error.message);
-      } else {
-        alert("Welcome back!");
-        window.location.href = "index.html"; // Redirect to homepage
-      }
-    });
-  }
-});
-
-// ==========================================
-// MONITOR AUTH STATE & UPDATE NAV BAR
-// ==========================================
-async function checkUserSession() {
-  // Get the currently logged-in user from local storage token
-  const { data: { user } } = await supabase.auth.getUser();
-
-  // Find the login link in your navigation menu
-  // In your wears.html image, line 30 is: <li><a href="login.html">Log In</a></li>
-  // Let's target the anchor tag inside the list items dynamically
-  const navLinks = document.querySelectorAll(".main-nav ul li a");
-  
-  let loginLink = null;
-  navLinks.forEach(link => {
-    if (link.textContent.trim() === "Log In" || link.textContent.trim() === "Log Out") {
-      loginLink = link;
-    }
-  });
-
-  if (user) {
-    console.log("Logged in user:", user.email);
-    // 1. If user exists, change "Log In" to "Log Out"
-    if (loginLink) {
-      loginLink.textContent = "Log Out";
-      loginLink.href = "#"; // Prevent navigating to login page
-      
-      // 2. Add click event listener to log them out safely
-      loginLink.addEventListener("click", async (e) => {
-        e.preventDefault();
-        await supabase.auth.signOut();
-        alert("Logged out successfully!");
-        window.location.reload(); // Refresh to reset state
-      });
-    }
-  } else {
-    console.log("No active user session.");
-    if (loginLink) {
-      loginLink.textContent = "Log In";
-      loginLink.href = "login.html";
-    }
-  }
-}
-
-// Call the function immediately when any page loads
-checkUserSession();
-
-
-// Main JavaScript for all pages
-document.addEventListener("DOMContentLoaded", function () {
-
-  // ===== Dropdown toggle =====
-  var dropdownToggles = document.querySelectorAll(".has-dropdown > a");
-
-  dropdownToggles.forEach(function (toggle) {
-    toggle.addEventListener("click", function (e) {
-      e.preventDefault();
-      var parent = this.parentElement;
-      document.querySelectorAll(".has-dropdown.open").forEach(function (el) {
-        if (el !== parent) el.classList.remove("open");
-      });
-      parent.classList.toggle("open");
-    });
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".has-dropdown")) {
-      document.querySelectorAll(".has-dropdown.open").forEach(function (el) {
-        el.classList.remove("open");
-      });
-    }
-  });
-
-  // ===== Hamburger menu toggle =====
-  var menuToggle = document.getElementById("menu-toggle");
-  var mainNav = document.getElementById("main-nav");
-  var navOverlay = document.getElementById("nav-overlay");
-
-  function openMobileNav() {
-    mainNav.classList.add("open");
-    menuToggle.classList.add("active");
-    if (navOverlay) navOverlay.classList.add("visible");
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeMobileNav() {
-    mainNav.classList.remove("open");
-    menuToggle.classList.remove("active");
-    if (navOverlay) navOverlay.classList.remove("visible");
-    document.body.style.overflow = "";
-    // Also close any open dropdowns
-    document.querySelectorAll(".has-dropdown.open").forEach(function (el) {
-      el.classList.remove("open");
-    });
-  }
-
-  if (menuToggle && mainNav) {
-    menuToggle.addEventListener("click", function () {
-      if (mainNav.classList.contains("open")) {
-        closeMobileNav();
-      } else {
-        openMobileNav();
-      }
-    });
-  }
-
-  if (navOverlay) {
-    navOverlay.addEventListener("click", function () {
-      closeMobileNav();
-    });
-  }
-
-  window.addEventListener("resize", function () {
-    if (window.innerWidth > 768 && mainNav) {
-      closeMobileNav();
-    }
-  });
-
-  // ===== Active nav link highlighting =====
-  var currentPage = window.location.pathname.split("/").pop().toLowerCase() || "index.html";
-  var navLinks = document.querySelectorAll(".main-nav a");
-
-  navLinks.forEach(function (link) {
-    var href = link.getAttribute("href");
-    if (href) {
-      var linkPage = href.split("/").pop().toLowerCase();
-      if (linkPage === currentPage) {
-        link.classList.add("active");
-      }
-    }
-  });
-
-  // ===== Search form handling =====
-  var searchForm = document.querySelector(".srch form");
-  if (searchForm) {
-    searchForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var searchInput = document.getElementById("search");
-      var query = searchInput ? searchInput.value.trim() : "";
-      if (query.length === 0) {
-        alert("Please enter a search term.");
-        return;
-      }
-      alert('Search for "' + query + '" is not yet available. Coming soon!');
-    });
-  }
-
-  // ===== Login form validation =====
-  var authForm = document.querySelector('.auth-form form');
-  var authTitle = document.querySelector('.auth-title');
-
-  if (authForm && authTitle && authTitle.textContent === "Welcome Back") {
-    authForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var email = document.getElementById("email");
-      var password = document.getElementById("password");
-
-      if (!email.value.trim()) {
-        alert("Please enter your email address.");
-        email.focus();
-        return;
-      }
-      if (!password.value.trim()) {
-        alert("Please enter your password.");
-        password.focus();
-        return;
-      }
-
-      alert("Login successful! Welcome back.");
-      authForm.reset();
-      window.location.href = "index.html";
-    });
-  }
-
-  // ===== Register form validation =====
-  if (authForm && authTitle && authTitle.textContent === "Create Account") {
-    authForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var fullname = document.getElementById("fullname");
-      var email = document.getElementById("email");
-      var password = document.getElementById("password");
-      var confirmPassword = document.getElementById("confirm-password");
-
-      if (!fullname.value.trim()) {
-        alert("Please enter your full name.");
-        fullname.focus();
-        return;
-      }
-      if (!email.value.trim()) {
-        alert("Please enter your email address.");
-        email.focus();
-        return;
-      }
-      if (!password.value.trim()) {
-        alert("Please create a password.");
-        password.focus();
-        return;
-      }
-      if (password.value.length < 6) {
-        alert("Password must be at least 6 characters long.");
-        password.focus();
-        return;
-      }
-      if (password.value !== confirmPassword.value) {
-        alert("Passwords do not match. Please try again.");
-        confirmPassword.focus();
-        return;
-      }
-
-      alert("Registration successful! You can now log in.");
-      authForm.reset();
-      window.location.href = "login.html";
-    });
-  }
-
-  // ===== Contact form handling =====
-  var contactForm = document.querySelector('.message form');
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var inputs = contactForm.querySelectorAll("input");
-      var allFilled = true;
-
-      inputs.forEach(function (input) {
-        if (!input.value.trim()) {
-          allFilled = false;
-        }
-      });
-
-      if (!allFilled) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      alert("Thank you for your message! We will get back to you soon.");
-      contactForm.reset();
-    });
-  }
-
-  // ===== CART SYSTEM =====
-
-  // Get cart from localStorage
-  function getCart() {
-    try {
-      return JSON.parse(localStorage.getItem("buyit_cart")) || [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  // Save cart to localStorage
-  function saveCart(cart) {
-    localStorage.setItem("buyit_cart", JSON.stringify(cart));
-  }
-
-  // Update cart badge count on all pages
-  function updateCartBadge() {
-    var badge = document.getElementById("cart-badge");
-    if (!badge) return;
-    var cart = getCart();
-    var count = cart.length;
-    badge.textContent = count;
-    if (count === 0) {
-      badge.classList.add("hidden");
+    // If we have specific product hits, display them cleanly above the grid
+    if (matchedProducts.length > 0) {
+      searchResultsContainer.classList.remove('hidden');
+      searchResultsContainer.innerHTML = `
+        <h3 class="results-heading">Matching Items Found</h3>
+        <div class="results-grid">
+          ${matchedProducts.map(prod => `
+            <a href="${prod.link}" class="result-item">
+              <span class="item-name">${prod.name}</span>
+              <span class="item-cat-badge">${prod.category}</span>
+            </a>
+          `).join('')}
+        </div>
+      `;
+    } else if (visibleCategoriesCount === 0) {
+      // If nothing matches either categories OR goods
+      searchResultsContainer.classList.remove('hidden');
+      searchResultsContainer.innerHTML = `<p class="no-results">No items or categories match "${searchInput.value}"</p>`;
     } else {
-      badge.classList.remove("hidden");
+      // Hide results container if only category grid elements match
+      searchResultsContainer.classList.add('hidden');
     }
   }
 
-  // Add item to cart
-  function addToCart(name, price, image) {
-    var cart = getCart();
-    // Check if already in cart
-    var exists = cart.some(function (item) {
-      return item.name === name;
-    });
-    if (exists) {
-      alert(name + " is already in your cart.");
-      return;
-    }
-    cart.push({ name: name, price: price, image: image });
-    saveCart(cart);
-    updateCartBadge();
-    alert(name + " has been added to your cart!");
-  }
+  // 4. Listeners for Seamless Interactions
+  // Updates matches instantly as the user types
+  searchInput.addEventListener('input', executeSearch);
 
-  // Remove item from cart
-  function removeFromCart(index) {
-    var cart = getCart();
-    cart.splice(index, 1);
-    saveCart(cart);
-    updateCartBadge();
-    renderCartPage();
-  }
-
-  // Make removeFromCart globally accessible for the cart page
-  window.removeFromCart = removeFromCart;
-
-  // Initialize cart badge on page load
-  updateCartBadge();
-
-  // ===== "Add to Cart" on product cards =====
-  var quickViewLinks = document.querySelectorAll(".animal a");
-  quickViewLinks.forEach(function (link) {
-    // Change link text to "Add to Cart"
-    link.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Add to Cart';
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      var productCard = this.closest(".animal");
-      var productName = productCard ? productCard.querySelector("h1") : null;
-      var productPrice = productCard ? productCard.querySelector("p") : null;
-      var productImg = productCard ? productCard.querySelector("img") : null;
-      var name = productName ? productName.textContent : "Product";
-      var price = productPrice ? productPrice.textContent : "";
-      var image = productImg ? productImg.getAttribute("src") : "";
-      addToCart(name, price, image);
-    });
+  // Prevents full page reloads if user presses enter or clicks the submit button
+  searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    executeSearch();
   });
-
-  // ===== Cart page rendering =====
-  function renderCartPage() {
-    var cartItemsContainer = document.getElementById("cart-items");
-    var cartEmptyMsg = document.getElementById("cart-empty");
-    var cartSummary = document.getElementById("cart-summary");
-    var cartTotalEl = document.getElementById("cart-total");
-    var cartCountEl = document.getElementById("cart-count");
-
-    if (!cartItemsContainer) return; // Not on cart page
-
-    var cart = getCart();
-
-    if (cart.length === 0) {
-      cartItemsContainer.style.display = "none";
-      cartSummary.style.display = "none";
-      cartEmptyMsg.style.display = "block";
-      return;
-    }
-
-    cartEmptyMsg.style.display = "none";
-    cartItemsContainer.style.display = "flex";
-    cartSummary.style.display = "block";
-
-    // Render items
-    var html = "";
-    var total = 0;
-
-    cart.forEach(function (item, index) {
-      // Parse price: remove # and commas
-      var priceNum = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 0;
-      total += priceNum;
-
-      html += '<div class="cart-item">';
-      html += '<img src="' + item.image + '" alt="' + item.name + '">';
-      html += '<div class="cart-item-info">';
-      html += '<h3>' + item.name + '</h3>';
-      html += '<p>' + item.price + '</p>';
-      html += '</div>';
-      html += '<button class="cart-item-remove" onclick="removeFromCart(' + index + ')" title="Remove">';
-      html += '<i class="fa-solid fa-trash"></i>';
-      html += '</button>';
-      html += '</div>';
-    });
-
-    cartItemsContainer.innerHTML = html;
-    cartCountEl.textContent = cart.length + " item" + (cart.length > 1 ? "s" : "");
-    cartTotalEl.textContent = "#" + total.toLocaleString();
-  }
-
-  // Render cart if on cart page
-  renderCartPage();
-
-  // Checkout button
-  var checkoutBtn = document.getElementById("checkout-btn");
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", function () {
-      var cart = getCart();
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-      }
-      alert("Thank you for your order! Checkout is coming soon.");
-    });
-  }
-
 });
