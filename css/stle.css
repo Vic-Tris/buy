@@ -562,7 +562,81 @@ textarea {
 .item-name {
   font-weight: 500;
 }
+/* ===========================
+   LIVE SEARCH DROPDOWN
+=========================== */
 
+.srch form{
+  position: relative;
+}
+
+#search-suggestions{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  overflow: hidden;
+  display: none;
+  z-index: 9999;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-item{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  text-decoration: none;
+  color: var(--color-text);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background .2s ease;
+}
+
+.search-item:last-child{
+  border-bottom: none;
+}
+
+.search-item:hover{
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.search-item img{
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.search-item-info{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.search-item-name{
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.search-item-price{
+  font-size: .8rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.search-empty{
+  padding: 15px;
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: .9rem;
+}
 /* Miniature subtle category pill badge */
 .item-cat-badge {
   font-size: 0.75rem;
