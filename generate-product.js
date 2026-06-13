@@ -1,3 +1,6 @@
+const product = products.find(
+  p => p.id === productId
+);
 const fs = require("fs");
 const path = require("path");
 
