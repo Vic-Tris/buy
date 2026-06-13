@@ -31,3 +31,6 @@ fetch("./data/products.json")
   .catch(error => {
     console.error(error);
   });
+
+  console.log("ID from URL:", productId);
+console.log("Product found:", product);
