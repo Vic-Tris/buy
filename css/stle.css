@@ -404,55 +404,6 @@ textarea {
   background-color: rgba(242, 101, 34, 0.06);
 }
 
-/* Dropdown 
-.has-dropdown > a {
-  cursor: pointer;
-}
-
-.has-dropdown .arrow {
-  font-size: 10px;
-  margin-left: 4px;
-  transition: transform var(--transition-normal);
-  display: inline-block;
-}
-
-.has-dropdown.open .arrow {
-  transform: rotate(180deg);
-}
-
-.has-dropdown .dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: var(--color-footer-bg);
-  padding: var(--space-sm) 0;
-  min-width: 240px;
-  max-height: 400px;
-  overflow-y: auto;
-  border-radius: var(--radius-md);
-  z-index: 1000;
-  box-shadow: var(--shadow-dropdown);
-}
-
-.has-dropdown.open .dropdown {
-  display: block;
-}
-
-.has-dropdown .dropdown li a {
-  display: block;
-  padding: 8px 20px;
-  color: var(--color-footer-text);
-  font-size: 0.85rem;
-  font-weight: 400;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-  border-radius: 0;
-}
-
-.has-dropdown .dropdown li a:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: var(--color-accent);
-}*/
 .caty {
   width: 100%;
   max-width: 1200px;
