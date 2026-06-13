@@ -1,0 +1,1234 @@
+[
+  {
+    "id": "Modern+SUV",
+    "name": "Modern SUV",
+    "price": "#18,500,000",
+    "image": "https://images.pexels.com/photos/31775320/pexels-photo-31775320.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Modern SUV available on BuyIt"
+  },
+  {
+    "id": "Luxury+Sedan",
+    "name": "Luxury Sedan",
+    "price": "#35,000,000",
+    "image": "https://images.pexels.com/photos/10358232/pexels-photo-10358232.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Luxury Sedan available on BuyIt"
+  },
+  {
+    "id": "Mercedes-Benz+S-Class",
+    "name": "Mercedes-Benz S-Class",
+    "price": "#55,000,000",
+    "image": "https://images.pexels.com/photos/18369292/pexels-photo-18369292.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Mercedes-Benz S-Class available on BuyIt"
+  },
+  {
+    "id": "Sport+Motorcycle",
+    "name": "Sport Motorcycle",
+    "price": "#3,500,000",
+    "image": "https://images.unsplash.com/photo-1552293164-607ec8360528?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxtb3RvcmN5Y2xlJTIwc3BvcnQlMjBiaWtlfGVufDB8MHx8fDE3NzI3MTA1NTZ8MA&ixlib=rb-4.1.0&q=85&w=400",
+    "category": "automobile",
+    "description": "Sport Motorcycle available on BuyIt"
+  },
+  {
+    "id": "Toyota+Tacoma+Pickup",
+    "name": "Toyota Tacoma Pickup",
+    "price": "#22,000,000",
+    "image": "https://images.pexels.com/photos/7668962/pexels-photo-7668962.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Toyota Tacoma Pickup available on BuyIt"
+  },
+  {
+    "id": "Jeep+Grand+Cherokee",
+    "name": "Jeep Grand Cherokee",
+    "price": "#28,000,000",
+    "image": "https://images.pexels.com/photos/119435/pexels-photo-119435.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Jeep Grand Cherokee available on BuyIt"
+  },
+  {
+    "id": "Ford+Bronco",
+    "name": "Ford Bronco",
+    "price": "#25,000,000",
+    "image": "https://images.pexels.com/photos/33448378/pexels-photo-33448378.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Ford Bronco available on BuyIt"
+  },
+  {
+    "id": "Kawasaki+Ninja",
+    "name": "Kawasaki Ninja",
+    "price": "#4,200,000",
+    "image": "https://images.pexels.com/photos/11059024/pexels-photo-11059024.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "automobile",
+    "description": "Kawasaki Ninja available on BuyIt"
+  },
+  {
+    "id": "Infant+Milk+Formula+(900g)",
+    "name": "Infant Milk Formula (900g)",
+    "price": "#8,500",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Infant Milk Formula (900g) available on BuyIt"
+  },
+  {
+    "id": "Baby+Diapers+(Size+4,+50pcs)",
+    "name": "Baby Diapers (Size 4, 50pcs)",
+    "price": "#4,200",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Baby Diapers (Size 4, 50pcs) available on BuyIt"
+  },
+  {
+    "id": "Gentle+Baby+Wipes+(80pcs)",
+    "name": "Gentle Baby Wipes (80pcs)",
+    "price": "#1,800",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Gentle Baby Wipes (80pcs) available on BuyIt"
+  },
+  {
+    "id": "Baby+Moisturizing+Lotion+(400ml)",
+    "name": "Baby Moisturizing Lotion (400ml)",
+    "price": "#2,500",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Baby Moisturizing Lotion (400ml) available on BuyIt"
+  },
+  {
+    "id": "Tear-Free+Baby+Shampoo+(300ml)",
+    "name": "Tear-Free Baby Shampoo (300ml)",
+    "price": "#1,900",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Tear-Free Baby Shampoo (300ml) available on BuyIt"
+  },
+  {
+    "id": "Organic+Baby+Food+Pouches+(6-pack)",
+    "name": "Organic Baby Food Pouches (6-pack)",
+    "price": "#3,200",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Organic Baby Food Pouches (6-pack) available on BuyIt"
+  },
+  {
+    "id": "infant-milk-formula-(900g)",
+    "name": "Infant Milk Formula (900g)",
+    "price": "#8,500",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Infant Milk Formula (900g) available on BuyIt"
+  },
+  {
+    "id": "baby-diapers-(size-4,-50pcs)",
+    "name": "Baby Diapers (Size 4, 50pcs)",
+    "price": "#4,200",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Baby Diapers (Size 4, 50pcs) available on BuyIt"
+  },
+  {
+    "id": "gentle-baby-wipes-(80pcs)",
+    "name": "Gentle Baby Wipes (80pcs)",
+    "price": "#1,800",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Gentle Baby Wipes (80pcs) available on BuyIt"
+  },
+  {
+    "id": "baby-moisturizing-lotion-(400ml)",
+    "name": "Baby Moisturizing Lotion (400ml)",
+    "price": "#2,500",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Baby Moisturizing Lotion (400ml) available on BuyIt"
+  },
+  {
+    "id": "tear-free-baby-shampoo-(300ml)",
+    "name": "Tear-Free Baby Shampoo (300ml)",
+    "price": "#1,900",
+    "image": "./images/water.jpg",
+    "category": "baby_products",
+    "description": "Tear-Free Baby Shampoo (300ml) available on BuyIt"
+  },
+  {
+    "id": "organic-baby-food-pouches-(6-pack)",
+    "name": "Organic Baby Food Pouches (6-pack)",
+    "price": "#3,200",
+    "image": "./images/water2.jpg",
+    "category": "baby_products",
+    "description": "Organic Baby Food Pouches (6-pack) available on BuyIt"
+  },
+  {
+    "id": "Whole+Wheat+Bread+Loaf",
+    "name": "Whole Wheat Bread Loaf",
+    "price": "#1,200",
+    "image": "./images/water.jpg",
+    "category": "bakery",
+    "description": "Whole Wheat Bread Loaf available on BuyIt"
+  },
+  {
+    "id": "Butter+Croissants+(Pack+of+6)",
+    "name": "Butter Croissants (Pack of 6)",
+    "price": "#2,800",
+    "image": "./images/water2.jpg",
+    "category": "bakery",
+    "description": "Butter Croissants (Pack of 6) available on BuyIt"
+  },
+  {
+    "id": "Chocolate+Cake+(1kg)",
+    "name": "Chocolate Cake (1kg)",
+    "price": "#8,500",
+    "image": "./images/water.jpg",
+    "category": "bakery",
+    "description": "Chocolate Cake (1kg) available on BuyIt"
+  },
+  {
+    "id": "Blueberry+Muffins+(Pack+of+4)",
+    "name": "Blueberry Muffins (Pack of 4)",
+    "price": "#1,800",
+    "image": "./images/water2.jpg",
+    "category": "bakery",
+    "description": "Blueberry Muffins (Pack of 4) available on BuyIt"
+  },
+  {
+    "id": "French+Baguette",
+    "name": "French Baguette",
+    "price": "#900",
+    "image": "./images/water.jpg",
+    "category": "bakery",
+    "description": "French Baguette available on BuyIt"
+  },
+  {
+    "id": "Glazed+Donuts+(Pack+of+6)",
+    "name": "Glazed Donuts (Pack of 6)",
+    "price": "#2,200",
+    "image": "./images/water2.jpg",
+    "category": "bakery",
+    "description": "Glazed Donuts (Pack of 6) available on BuyIt"
+  },
+  {
+    "id": "Bottled+Water+(Pack+of+12)",
+    "name": "Bottled Water (Pack of 12)",
+    "price": "#3,500",
+    "image": "./images/water.jpg",
+    "category": "beverages",
+    "description": "Bottled Water (Pack of 12) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Orange+Juice+(1L)",
+    "name": "Fresh Orange Juice (1L)",
+    "price": "#2,200",
+    "image": "./images/juice1.jpg",
+    "category": "beverages",
+    "description": "Fresh Orange Juice (1L) available on BuyIt"
+  },
+  {
+    "id": "Cola+Soft+Drink+(2L)",
+    "name": "Cola Soft Drink (2L)",
+    "price": "#800",
+    "image": "./images/soda1.jpg",
+    "category": "beverages",
+    "description": "Cola Soft Drink (2L) available on BuyIt"
+  },
+  {
+    "id": "Premium+Ground+Coffee+(500g)",
+    "name": "Premium Ground Coffee (500g)",
+    "price": "#6,500",
+    "image": "./images/coffee1.jpg",
+    "category": "beverages",
+    "description": "Premium Ground Coffee (500g) available on BuyIt"
+  },
+  {
+    "id": "Organic+Green+Tea+(100+bags)",
+    "name": "Organic Green Tea (100 bags)",
+    "price": "#3,800",
+    "image": "./images/tea1.jpg",
+    "category": "beverages",
+    "description": "Organic Green Tea (100 bags) available on BuyIt"
+  },
+  {
+    "id": "Energy+Drink+(Pack+of+6)",
+    "name": "Energy Drink (Pack of 6)",
+    "price": "#4,200",
+    "image": "./images/energy1.jpg",
+    "category": "beverages",
+    "description": "Energy Drink (Pack of 6) available on BuyIt"
+  },
+  {
+    "id": "Canned+Tomatoes+(400g)",
+    "name": "Canned Tomatoes (400g)",
+    "price": "#800",
+    "image": "./images/water.jpg",
+    "category": "canned_packaged",
+    "description": "Canned Tomatoes (400g) available on BuyIt"
+  },
+  {
+    "id": "Canned+Tuna+in+Oil",
+    "name": "Canned Tuna in Oil",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "canned_packaged",
+    "description": "Canned Tuna in Oil available on BuyIt"
+  },
+  {
+    "id": "Tomato+Pasta+Sauce",
+    "name": "Tomato Pasta Sauce",
+    "price": "#950",
+    "image": "./images/water.jpg",
+    "category": "canned_packaged",
+    "description": "Tomato Pasta Sauce available on BuyIt"
+  },
+  {
+    "id": "Canned+Baked+Beans",
+    "name": "Canned Baked Beans",
+    "price": "#700",
+    "image": "./images/water2.jpg",
+    "category": "canned_packaged",
+    "description": "Canned Baked Beans available on BuyIt"
+  },
+  {
+    "id": "Canned+Corn+Kernels",
+    "name": "Canned Corn Kernels",
+    "price": "#600",
+    "image": "./images/water.jpg",
+    "category": "canned_packaged",
+    "description": "Canned Corn Kernels available on BuyIt"
+  },
+  {
+    "id": "Crunchy+Peanut+Butter",
+    "name": "Crunchy Peanut Butter",
+    "price": "#1,800",
+    "image": "./images/water2.jpg",
+    "category": "canned_packaged",
+    "description": "Crunchy Peanut Butter available on BuyIt"
+  },
+  {
+    "id": "Corn+Flakes+(500g)",
+    "name": "Corn Flakes (500g)",
+    "price": "#1,800",
+    "image": "./images/water.jpg",
+    "category": "cereals_breakfast",
+    "description": "Corn Flakes (500g) available on BuyIt"
+  },
+  {
+    "id": "Instant+Oatmeal+(400g)",
+    "name": "Instant Oatmeal (400g)",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "cereals_breakfast",
+    "description": "Instant Oatmeal (400g) available on BuyIt"
+  },
+  {
+    "id": "Mixed+Berry+Granola",
+    "name": "Mixed Berry Granola",
+    "price": "#2,500",
+    "image": "./images/water.jpg",
+    "category": "cereals_breakfast",
+    "description": "Mixed Berry Granola available on BuyIt"
+  },
+  {
+    "id": "Swiss+Muesli+(750g)",
+    "name": "Swiss Muesli (750g)",
+    "price": "#3,200",
+    "image": "./images/water2.jpg",
+    "category": "cereals_breakfast",
+    "description": "Swiss Muesli (750g) available on BuyIt"
+  },
+  {
+    "id": "Protein+Breakfast+Bars+(6-pack)",
+    "name": "Protein Breakfast Bars (6-pack)",
+    "price": "#1,500",
+    "image": "./images/water.jpg",
+    "category": "cereals_breakfast",
+    "description": "Protein Breakfast Bars (6-pack) available on BuyIt"
+  },
+  {
+    "id": "Buttermilk+Pancake+Mix",
+    "name": "Buttermilk Pancake Mix",
+    "price": "#2,000",
+    "image": "./images/water2.jpg",
+    "category": "cereals_breakfast",
+    "description": "Buttermilk Pancake Mix available on BuyIt"
+  },
+  {
+    "id": "Ground+Black+Pepper+(100g)",
+    "name": "Ground Black Pepper (100g)",
+    "price": "#1,200",
+    "image": "./images/water.jpg",
+    "category": "condiments_spices",
+    "description": "Ground Black Pepper (100g) available on BuyIt"
+  },
+  {
+    "id": "Premium+Soy+Sauce+(500ml)",
+    "name": "Premium Soy Sauce (500ml)",
+    "price": "#800",
+    "image": "./images/water2.jpg",
+    "category": "condiments_spices",
+    "description": "Premium Soy Sauce (500ml) available on BuyIt"
+  },
+  {
+    "id": "Tomato+Ketchup+(750ml)",
+    "name": "Tomato Ketchup (750ml)",
+    "price": "#600",
+    "image": "./images/water.jpg",
+    "category": "condiments_spices",
+    "description": "Tomato Ketchup (750ml) available on BuyIt"
+  },
+  {
+    "id": "Mild+Curry+Powder+(200g)",
+    "name": "Mild Curry Powder (200g)",
+    "price": "#950",
+    "image": "./images/water2.jpg",
+    "category": "condiments_spices",
+    "description": "Mild Curry Powder (200g) available on BuyIt"
+  },
+  {
+    "id": "Dijon+Mustard+(250ml)",
+    "name": "Dijon Mustard (250ml)",
+    "price": "#1,100",
+    "image": "./images/water.jpg",
+    "category": "condiments_spices",
+    "description": "Dijon Mustard (250ml) available on BuyIt"
+  },
+  {
+    "id": "Garlic+Powder+(150g)",
+    "name": "Garlic Powder (150g)",
+    "price": "#700",
+    "image": "./images/water2.jpg",
+    "category": "condiments_spices",
+    "description": "Garlic Powder (150g) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Whole+Milk+(1L)",
+    "name": "Fresh Whole Milk (1L)",
+    "price": "#2,500",
+    "image": "./images/milk1.jpg",
+    "category": "dairy_eggs",
+    "description": "Fresh Whole Milk (1L) available on BuyIt"
+  },
+  {
+    "id": "Cheddar+Cheese+(200g)",
+    "name": "Cheddar Cheese (200g)",
+    "price": "#4,200",
+    "image": "./images/cheese1.jpg",
+    "category": "dairy_eggs",
+    "description": "Cheddar Cheese (200g) available on BuyIt"
+  },
+  {
+    "id": "Farm+Fresh+Eggs+(12-pack)",
+    "name": "Farm Fresh Eggs (12-pack)",
+    "price": "#1,800",
+    "image": "./images/eggs1.jpg",
+    "category": "dairy_eggs",
+    "description": "Farm Fresh Eggs (12-pack) available on BuyIt"
+  },
+  {
+    "id": "Greek+Yogurt+(500g)",
+    "name": "Greek Yogurt (500g)",
+    "price": "#3,100",
+    "image": "./images/yogurt1.jpg",
+    "category": "dairy_eggs",
+    "description": "Greek Yogurt (500g) available on BuyIt"
+  },
+  {
+    "id": "Unsalted+Butter+(250g)",
+    "name": "Unsalted Butter (250g)",
+    "price": "#2,800",
+    "image": "./images/butter1.jpg",
+    "category": "dairy_eggs",
+    "description": "Unsalted Butter (250g) available on BuyIt"
+  },
+  {
+    "id": "Heavy+Cream+(300ml)",
+    "name": "Heavy Cream (300ml)",
+    "price": "#3,500",
+    "image": "./images/cream1.jpg",
+    "category": "dairy_eggs",
+    "description": "Heavy Cream (300ml) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Red+Apples+(1kg)",
+    "name": "Fresh Red Apples (1kg)",
+    "price": "#2,500",
+    "image": "./images/water.jpg",
+    "category": "fresh",
+    "description": "Fresh Red Apples (1kg) available on BuyIt"
+  },
+  {
+    "id": "Organic+Bananas+(1kg)",
+    "name": "Organic Bananas (1kg)",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "fresh",
+    "description": "Organic Bananas (1kg) available on BuyIt"
+  },
+  {
+    "id": "Vine+Tomatoes+(500g)",
+    "name": "Vine Tomatoes (500g)",
+    "price": "#800",
+    "image": "./images/water.jpg",
+    "category": "fresh",
+    "description": "Vine Tomatoes (500g) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Lettuce+(200g)",
+    "name": "Fresh Lettuce (200g)",
+    "price": "#600",
+    "image": "./images/lettuce.jpg",
+    "category": "fresh",
+    "description": "Fresh Lettuce (200g) available on BuyIt"
+  },
+  {
+    "id": "Organic+Carrots+(1kg)",
+    "name": "Organic Carrots (1kg)",
+    "price": "#1,000",
+    "image": "./images/carrots.jpg",
+    "category": "fresh",
+    "description": "Organic Carrots (1kg) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Broccoli+(300g)",
+    "name": "Fresh Broccoli (300g)",
+    "price": "#1,800",
+    "image": "./images/broccoli.jpg",
+    "category": "fresh",
+    "description": "Fresh Broccoli (300g) available on BuyIt"
+  },
+  {
+    "id": "Frozen+Pepperoni+Pizza",
+    "name": "Frozen Pepperoni Pizza",
+    "price": "#3,500",
+    "image": "./images/water.jpg",
+    "category": "frozen_foods",
+    "description": "Frozen Pepperoni Pizza available on BuyIt"
+  },
+  {
+    "id": "Mixed+Frozen+Vegetables",
+    "name": "Mixed Frozen Vegetables",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "frozen_foods",
+    "description": "Mixed Frozen Vegetables available on BuyIt"
+  },
+  {
+    "id": "Vanilla+Ice+Cream+(1L)",
+    "name": "Vanilla Ice Cream (1L)",
+    "price": "#2,800",
+    "image": "./images/water.jpg",
+    "category": "frozen_foods",
+    "description": "Vanilla Ice Cream (1L) available on BuyIt"
+  },
+  {
+    "id": "Frozen+Tilapia+Fillets",
+    "name": "Frozen Tilapia Fillets",
+    "price": "#4,200",
+    "image": "./images/water2.jpg",
+    "category": "frozen_foods",
+    "description": "Frozen Tilapia Fillets available on BuyIt"
+  },
+  {
+    "id": "Frozen+Chicken+Nuggets",
+    "name": "Frozen Chicken Nuggets",
+    "price": "#2,500",
+    "image": "./images/water.jpg",
+    "category": "frozen_foods",
+    "description": "Frozen Chicken Nuggets available on BuyIt"
+  },
+  {
+    "id": "Frozen+Mixed+Berries",
+    "name": "Frozen Mixed Berries",
+    "price": "#3,000",
+    "image": "./images/water2.jpg",
+    "category": "frozen_foods",
+    "description": "Frozen Mixed Berries available on BuyIt"
+  },
+  {
+    "id": "Daily+Multivitamin+Tablets+(60pcs)",
+    "name": "Daily Multivitamin Tablets (60pcs)",
+    "price": "#4,500",
+    "image": "./images/water.jpg",
+    "category": "health_wellness",
+    "description": "Daily Multivitamin Tablets (60pcs) available on BuyIt"
+  },
+  {
+    "id": "Whey+Protein+Powder+(1kg)",
+    "name": "Whey Protein Powder (1kg)",
+    "price": "#12,000",
+    "image": "./images/water2.jpg",
+    "category": "health_wellness",
+    "description": "Whey Protein Powder (1kg) available on BuyIt"
+  },
+  {
+    "id": "Fish+Oil+Omega-3+Capsules+(120pcs)",
+    "name": "Fish Oil Omega-3 Capsules (120pcs)",
+    "price": "#6,800",
+    "image": "./images/water.jpg",
+    "category": "health_wellness",
+    "description": "Fish Oil Omega-3 Capsules (120pcs) available on BuyIt"
+  },
+  {
+    "id": "Organic+Herbal+Tea+(25+bags)",
+    "name": "Organic Herbal Tea (25 bags)",
+    "price": "#2,200",
+    "image": "./images/water2.jpg",
+    "category": "health_wellness",
+    "description": "Organic Herbal Tea (25 bags) available on BuyIt"
+  },
+  {
+    "id": "Aromatherapy+Massage+Oil+(200ml)",
+    "name": "Aromatherapy Massage Oil (200ml)",
+    "price": "#3,500",
+    "image": "./images/water.jpg",
+    "category": "health_wellness",
+    "description": "Aromatherapy Massage Oil (200ml) available on BuyIt"
+  },
+  {
+    "id": "Smart+Fitness+Tracker",
+    "name": "Smart Fitness Tracker",
+    "price": "#15,000",
+    "image": "./images/water2.jpg",
+    "category": "health_wellness",
+    "description": "Smart Fitness Tracker available on BuyIt"
+  },
+  {
+    "id": "55-inch+Smart+TV",
+    "name": "55-inch Smart TV",
+    "price": "#180,000",
+    "image": "./images/t,v,v.jpg.jpg",
+    "category": "home_ele",
+    "description": "55-inch Smart TV available on BuyIt"
+  },
+  {
+    "id": "Home+Theater+System",
+    "name": "Home Theater System",
+    "price": "#95,000",
+    "image": "./images/set 1.jpg",
+    "category": "home_ele",
+    "description": "Home Theater System available on BuyIt"
+  },
+  {
+    "id": "Standing+Fan",
+    "name": "Standing Fan",
+    "price": "#25,000",
+    "image": "./images/set 2.jpg",
+    "category": "home_ele",
+    "description": "Standing Fan available on BuyIt"
+  },
+  {
+    "id": "Washing+Machine",
+    "name": "Washing Machine",
+    "price": "#150,000",
+    "image": "./images/set 3.jpg",
+    "category": "home_ele",
+    "description": "Washing Machine available on BuyIt"
+  },
+  {
+    "id": "Air+Conditioner+1.5HP",
+    "name": "Air Conditioner 1.5HP",
+    "price": "#250,000",
+    "image": "./images/set 4.jpg",
+    "category": "home_ele",
+    "description": "Air Conditioner 1.5HP available on BuyIt"
+  },
+  {
+    "id": "Kitchen+Appliance+Set",
+    "name": "Kitchen Appliance Set",
+    "price": "#85,000",
+    "image": "https://images.pexels.com/photos/5556176/pexels-photo-5556176.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "home_ele",
+    "description": "Kitchen Appliance Set available on BuyIt"
+  },
+  {
+    "id": "Modern+Kitchen+Setup",
+    "name": "Modern Kitchen Setup",
+    "price": "#320,000",
+    "image": "https://images.pexels.com/photos/32269126/pexels-photo-32269126.png?auto=compress&cs=tinysrgb&w=400",
+    "category": "home_ele",
+    "description": "Modern Kitchen Setup available on BuyIt"
+  },
+  {
+    "id": "Food+Processor+&+Blender",
+    "name": "Food Processor &amp; Blender",
+    "price": "#45,000",
+    "image": "https://images.unsplash.com/photo-1736511990191-4b66809b48ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxNHx8a2l0Y2hlbiUyMGJsZW5kZXIlMjBhcHBsaWFuY2UlMjBtb2Rlcm58ZW58MHwyfHx8MTc3MjcxMDU1N3ww&ixlib=rb-4.1.0&q=85&w=400",
+    "category": "home_ele",
+    "description": "Food Processor &amp; Blender available on BuyIt"
+  },
+  {
+    "id": "Lemon+Dish+Soap+(750ml)",
+    "name": "Lemon Dish Soap (750ml)",
+    "price": "#900",
+    "image": "./images/water.jpg",
+    "category": "household_cleaning",
+    "description": "Lemon Dish Soap (750ml) available on BuyIt"
+  },
+  {
+    "id": "Liquid+Laundry+Detergent+(2L)",
+    "name": "Liquid Laundry Detergent (2L)",
+    "price": "#2,200",
+    "image": "./images/water2.jpg",
+    "category": "household_cleaning",
+    "description": "Liquid Laundry Detergent (2L) available on BuyIt"
+  },
+  {
+    "id": "Multi-Surface+Floor+Cleaner+(1L)",
+    "name": "Multi-Surface Floor Cleaner (1L)",
+    "price": "#1,500",
+    "image": "./images/water.jpg",
+    "category": "household_cleaning",
+    "description": "Multi-Surface Floor Cleaner (1L) available on BuyIt"
+  },
+  {
+    "id": "Power+Toilet+Cleaner+(500ml)",
+    "name": "Power Toilet Cleaner (500ml)",
+    "price": "#800",
+    "image": "./images/water2.jpg",
+    "category": "household_cleaning",
+    "description": "Power Toilet Cleaner (500ml) available on BuyIt"
+  },
+  {
+    "id": "Streak-Free+Glass+Cleaner+(500ml)",
+    "name": "Streak-Free Glass Cleaner (500ml)",
+    "price": "#700",
+    "image": "./images/water.jpg",
+    "category": "household_cleaning",
+    "description": "Streak-Free Glass Cleaner (500ml) available on BuyIt"
+  },
+  {
+    "id": "Kitchen+Sponge+Pack+(6pcs)",
+    "name": "Kitchen Sponge Pack (6pcs)",
+    "price": "#400",
+    "image": "./images/water2.jpg",
+    "category": "household_cleaning",
+    "description": "Kitchen Sponge Pack (6pcs) available on BuyIt"
+  },
+  {
+    "id": "Stainless+Steel+Pot+Set",
+    "name": "Stainless Steel Pot Set",
+    "price": "#35,000",
+    "image": "https://images.unsplash.com/photo-1592156553575-42d9c827d7ee?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxjb29raW5nJTIwcG90JTIwc2V0JTIwc3RhaW5sZXNzJTIwc3RlZWx8ZW58MHwyfHx8MTc3MjcxMDU1N3ww&ixlib=rb-4.1.0&q=85&w=400",
+    "category": "kitchen",
+    "description": "Stainless Steel Pot Set available on BuyIt"
+  },
+  {
+    "id": "Non-Stick+Frying+Pan+Set",
+    "name": "Non-Stick Frying Pan Set",
+    "price": "#18,000",
+    "image": "./images/set 1.jpg",
+    "category": "kitchen",
+    "description": "Non-Stick Frying Pan Set available on BuyIt"
+  },
+  {
+    "id": "Dinner+Plate+Set+(12pcs)",
+    "name": "Dinner Plate Set (12pcs)",
+    "price": "#12,000",
+    "image": "./images/set 2.jpg",
+    "category": "kitchen",
+    "description": "Dinner Plate Set (12pcs) available on BuyIt"
+  },
+  {
+    "id": "Cutlery+Set+(24pcs)",
+    "name": "Cutlery Set (24pcs)",
+    "price": "#8,500",
+    "image": "./images/set 3.jpg",
+    "category": "kitchen",
+    "description": "Cutlery Set (24pcs) available on BuyIt"
+  },
+  {
+    "id": "Glass+Cup+Set+(6pcs)",
+    "name": "Glass Cup Set (6pcs)",
+    "price": "#5,000",
+    "image": "./images/set 4.jpg",
+    "category": "kitchen",
+    "description": "Glass Cup Set (6pcs) available on BuyIt"
+  },
+  {
+    "id": "Kitchen+Cabinet+Organizer",
+    "name": "Kitchen Cabinet Organizer",
+    "price": "#22,000",
+    "image": "https://images.pexels.com/photos/5556176/pexels-photo-5556176.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "kitchen",
+    "description": "Kitchen Cabinet Organizer available on BuyIt"
+  },
+  {
+    "id": "Soup+Pot+(Large)",
+    "name": "Soup Pot (Large)",
+    "price": "#15,000",
+    "image": "https://images.pexels.com/photos/15735751/pexels-photo-15735751.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "kitchen",
+    "description": "Soup Pot (Large) available on BuyIt"
+  },
+  {
+    "id": "Blender+&+Mixer+Set",
+    "name": "Blender &amp; Mixer Set",
+    "price": "#28,000",
+    "image": "https://images.unsplash.com/photo-1736511990191-4b66809b48ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxNHx8a2l0Y2hlbiUyMGJsZW5kZXIlMjBhcHBsaWFuY2UlMjBtb2Rlcm58ZW58MHwyfHx8MTc3MjcxMDU1N3ww&ixlib=rb-4.1.0&q=85&w=400",
+    "category": "kitchen",
+    "description": "Blender &amp; Mixer Set available on BuyIt"
+  },
+  {
+    "id": "Fresh+Chicken+Breast+(1kg)",
+    "name": "Fresh Chicken Breast (1kg)",
+    "price": "#8,500",
+    "image": "./images/meat1.jpg",
+    "category": "meat_seafood",
+    "description": "Fresh Chicken Breast (1kg) available on BuyIt"
+  },
+  {
+    "id": "Premium+Beef+Steak+(500g)",
+    "name": "Premium Beef Steak (500g)",
+    "price": "#12,000",
+    "image": "./images/meat2.jpg",
+    "category": "meat_seafood",
+    "description": "Premium Beef Steak (500g) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Salmon+Fillet+(400g)",
+    "name": "Fresh Salmon Fillet (400g)",
+    "price": "#15,000",
+    "image": "./images/seafood1.jpg",
+    "category": "meat_seafood",
+    "description": "Fresh Salmon Fillet (400g) available on BuyIt"
+  },
+  {
+    "id": "Large+Shrimp+(500g)",
+    "name": "Large Shrimp (500g)",
+    "price": "#9,500",
+    "image": "./images/seafood2.jpg",
+    "category": "meat_seafood",
+    "description": "Large Shrimp (500g) available on BuyIt"
+  },
+  {
+    "id": "Lamb+Chops+(600g)",
+    "name": "Lamb Chops (600g)",
+    "price": "#18,000",
+    "image": "./images/meat3.jpg",
+    "category": "meat_seafood",
+    "description": "Lamb Chops (600g) available on BuyIt"
+  },
+  {
+    "id": "Fresh+Tuna+Steak+(300g)",
+    "name": "Fresh Tuna Steak (300g)",
+    "price": "#11,000",
+    "image": "./images/seafood3.jpg",
+    "category": "meat_seafood",
+    "description": "Fresh Tuna Steak (300g) available on BuyIt"
+  },
+  {
+    "id": "Herbal+Shampoo+(400ml)",
+    "name": "Herbal Shampoo (400ml)",
+    "price": "#2,500",
+    "image": "./images/water.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Herbal Shampoo (400ml) available on BuyIt"
+  },
+  {
+    "id": "Whitening+Toothpaste+(150g)",
+    "name": "Whitening Toothpaste (150g)",
+    "price": "#800",
+    "image": "./images/water2.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Whitening Toothpaste (150g) available on BuyIt"
+  },
+  {
+    "id": "Moisturizing+Body+Lotion+(500ml)",
+    "name": "Moisturizing Body Lotion (500ml)",
+    "price": "#1,800",
+    "image": "./images/water.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Moisturizing Body Lotion (500ml) available on BuyIt"
+  },
+  {
+    "id": "Men's+Deodorant+Spray+(200ml)",
+    "name": "Men's Deodorant Spray (200ml)",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Men's Deodorant Spray (200ml) available on BuyIt"
+  },
+  {
+    "id": "Gentle+Face+Wash+(200ml)",
+    "name": "Gentle Face Wash (200ml)",
+    "price": "#1,500",
+    "image": "./images/water.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Gentle Face Wash (200ml) available on BuyIt"
+  },
+  {
+    "id": "Sensitive+Skin+Shaving+Cream",
+    "name": "Sensitive Skin Shaving Cream",
+    "price": "#1,000",
+    "image": "./images/water2.jpg",
+    "category": "personal_care_hygiene",
+    "description": "Sensitive Skin Shaving Cream available on BuyIt"
+  },
+  {
+    "id": "Premium+Dog+Food+(15kg)",
+    "name": "Premium Dog Food (15kg)",
+    "price": "#12,500",
+    "image": "./images/water.jpg",
+    "category": "pet_supplies",
+    "description": "Premium Dog Food (15kg) available on BuyIt"
+  },
+  {
+    "id": "Adult+Cat+Food+(10kg)",
+    "name": "Adult Cat Food (10kg)",
+    "price": "#8,900",
+    "image": "./images/water2.jpg",
+    "category": "pet_supplies",
+    "description": "Adult Cat Food (10kg) available on BuyIt"
+  },
+  {
+    "id": "Orthopedic+Dog+Bed+(Large)",
+    "name": "Orthopedic Dog Bed (Large)",
+    "price": "#15,000",
+    "image": "./images/water.jpg",
+    "category": "pet_supplies",
+    "description": "Orthopedic Dog Bed (Large) available on BuyIt"
+  },
+  {
+    "id": "Interactive+Pet+Toys+Set",
+    "name": "Interactive Pet Toys Set",
+    "price": "#3,500",
+    "image": "./images/water2.jpg",
+    "category": "pet_supplies",
+    "description": "Interactive Pet Toys Set available on BuyIt"
+  },
+  {
+    "id": "Hypoallergenic+Pet+Shampoo+(500ml)",
+    "name": "Hypoallergenic Pet Shampoo (500ml)",
+    "price": "#2,200",
+    "image": "./images/water.jpg",
+    "category": "pet_supplies",
+    "description": "Hypoallergenic Pet Shampoo (500ml) available on BuyIt"
+  },
+  {
+    "id": "Self-Cleaning+Litter+Box",
+    "name": "Self-Cleaning Litter Box",
+    "price": "#18,000",
+    "image": "./images/water2.jpg",
+    "category": "pet_supplies",
+    "description": "Self-Cleaning Litter Box available on BuyIt"
+  },
+  {
+    "id": "Samsung+Galaxy+S24",
+    "name": "Samsung Galaxy S24",
+    "price": "#350,000",
+    "image": "./images/phone 1.jpg",
+    "category": "phones",
+    "description": "Samsung Galaxy S24 available on BuyIt"
+  },
+  {
+    "id": "iphone-15-pro-max",
+    "name": "iPhone 15 Pro Max",
+    "price": "#750,000",
+    "image": "./images/phone 2.jpg",
+    "category": "phones",
+    "description": "iPhone 15 Pro Max available on BuyIt"
+  },
+  {
+    "id": "Google+Pixel+8",
+    "name": "Google Pixel 8",
+    "price": "#280,000",
+    "image": "./images/phone 3.jpg",
+    "category": "phones",
+    "description": "Google Pixel 8 available on BuyIt"
+  },
+  {
+    "id": "Xiaomi+14+Ultra",
+    "name": "Xiaomi 14 Ultra",
+    "price": "#200,000",
+    "image": "./images/phone 4.jpg",
+    "category": "phones",
+    "description": "Xiaomi 14 Ultra available on BuyIt"
+  },
+  {
+    "id": "OnePlus+12",
+    "name": "OnePlus 12",
+    "price": "#320,000",
+    "image": "./images/phone 5.jpg",
+    "category": "phones",
+    "description": "OnePlus 12 available on BuyIt"
+  },
+  {
+    "id": "Tecno+Camon+20",
+    "name": "Tecno Camon 20",
+    "price": "#120,000",
+    "image": "./images/phone 6.jpg",
+    "category": "phones",
+    "description": "Tecno Camon 20 available on BuyIt"
+  },
+  {
+    "id": "MacBook+Pro+M3",
+    "name": "MacBook Pro M3",
+    "price": "#1,200,000",
+    "image": "./images/laptop 1.jpg",
+    "category": "phones",
+    "description": "MacBook Pro M3 available on BuyIt"
+  },
+  {
+    "id": "Dell+XPS+15",
+    "name": "Dell XPS 15",
+    "price": "#850,000",
+    "image": "./images/laptop 2.jpg",
+    "category": "phones",
+    "description": "Dell XPS 15 available on BuyIt"
+  },
+  {
+    "id": "HP+Spectre+x360",
+    "name": "HP Spectre x360",
+    "price": "#720,000",
+    "image": "./images/laptop 4.jpg",
+    "category": "phones",
+    "description": "HP Spectre x360 available on BuyIt"
+  },
+  {
+    "id": "Lenovo+ThinkPad+X1",
+    "name": "Lenovo ThinkPad X1",
+    "price": "#900,000",
+    "image": "./images/laptop 5.jpg",
+    "category": "phones",
+    "description": "Lenovo ThinkPad X1 available on BuyIt"
+  },
+  {
+    "id": "Crispy+Potato+Chips+(200g)",
+    "name": "Crispy Potato Chips (200g)",
+    "price": "#1,200",
+    "image": "./images/chips1.jpg",
+    "category": "snacks",
+    "description": "Crispy Potato Chips (200g) available on BuyIt"
+  },
+  {
+    "id": "Premium+Dark+Chocolate+(100g)",
+    "name": "Premium Dark Chocolate (100g)",
+    "price": "#2,500",
+    "image": "./images/chocolate1.jpg",
+    "category": "snacks",
+    "description": "Premium Dark Chocolate (100g) available on BuyIt"
+  },
+  {
+    "id": "Chocolate+Chip+Cookies+(Pack+of+12)",
+    "name": "Chocolate Chip Cookies (Pack of 12)",
+    "price": "#1,800",
+    "image": "./images/cookies1.jpg",
+    "category": "snacks",
+    "description": "Chocolate Chip Cookies (Pack of 12) available on BuyIt"
+  },
+  {
+    "id": "Mixed+Nuts+(300g)",
+    "name": "Mixed Nuts (300g)",
+    "price": "#4,500",
+    "image": "./images/nuts1.jpg",
+    "category": "snacks",
+    "description": "Mixed Nuts (300g) available on BuyIt"
+  },
+  {
+    "id": "Fruit+Gummy+Candies+(250g)",
+    "name": "Fruit Gummy Candies (250g)",
+    "price": "#1,500",
+    "image": "./images/candy1.jpg",
+    "category": "snacks",
+    "description": "Fruit Gummy Candies (250g) available on BuyIt"
+  },
+  {
+    "id": "Butter+Popcorn+(500g)",
+    "name": "Butter Popcorn (500g)",
+    "price": "#2,200",
+    "image": "./images/popcorn1.jpg",
+    "category": "snacks",
+    "description": "Butter Popcorn (500g) available on BuyIt"
+  },
+  {
+    "id": "Non-Slip+Yoga+Mat",
+    "name": "Non-Slip Yoga Mat",
+    "price": "#6,500",
+    "image": "./images/water.jpg",
+    "category": "sports_outdoors",
+    "description": "Non-Slip Yoga Mat available on BuyIt"
+  },
+  {
+    "id": "Adjustable+Dumbbells+(5-25kg)",
+    "name": "Adjustable Dumbbells (5-25kg)",
+    "price": "#18,000",
+    "image": "./images/water2.jpg",
+    "category": "sports_outdoors",
+    "description": "Adjustable Dumbbells (5-25kg) available on BuyIt"
+  },
+  {
+    "id": "4-Person+Camping+Tent",
+    "name": "4-Person Camping Tent",
+    "price": "#25,000",
+    "image": "./images/water.jpg",
+    "category": "sports_outdoors",
+    "description": "4-Person Camping Tent available on BuyIt"
+  },
+  {
+    "id": "Professional+Basketball",
+    "name": "Professional Basketball",
+    "price": "#8,500",
+    "image": "./images/water2.jpg",
+    "category": "sports_outdoors",
+    "description": "Professional Basketball available on BuyIt"
+  },
+  {
+    "id": "Waterproof+Hiking+Boots",
+    "name": "Waterproof Hiking Boots",
+    "price": "#22,000",
+    "image": "./images/water.jpg",
+    "category": "sports_outdoors",
+    "description": "Waterproof Hiking Boots available on BuyIt"
+  },
+  {
+    "id": "Anti-Fog+Swimming+Goggles",
+    "name": "Anti-Fog Swimming Goggles",
+    "price": "#3,200",
+    "image": "./images/water2.jpg",
+    "category": "sports_outdoors",
+    "description": "Anti-Fog Swimming Goggles available on BuyIt"
+  },
+  {
+    "id": "Premium+Notebooks+(Pack+of+3)",
+    "name": "Premium Notebooks (Pack of 3)",
+    "price": "#2,500",
+    "image": "./images/water.jpg",
+    "category": "stationery_office",
+    "description": "Premium Notebooks (Pack of 3) available on BuyIt"
+  },
+  {
+    "id": "Gel+Ink=Pens+(12-pack)",
+    "name": "Gel Ink Pens (12-pack)",
+    "price": "#1,200",
+    "image": "./images/water2.jpg",
+    "category": "stationery_office",
+    "description": "Gel Ink Pens (12-pack) available on BuyIt"
+  },
+  {
+    "id": "A4+Printer+Paper+(500+sheets)",
+    "name": "A4 Printer Paper (500 sheets)",
+    "price": "#3,800",
+    "image": "./images/water.jpg",
+    "category": "stationery_office",
+    "description": "A4 Printer Paper (500 sheets) available on BuyIt"
+  },
+  {
+    "id": "Mesh+Desk+Organizer",
+    "name": "Mesh Desk Organizer",
+    "price": "#4,500",
+    "image": "./images/water2.jpg",
+    "category": "stationery_office",
+    "description": "Mesh Desk Organizer available on BuyIt"
+  },
+  {
+    "id": "Magnetic+Whiteboard+(24x18)",
+    "name": "Magnetic Whiteboard (24x18)",
+    "price": "#8,000",
+    "image": "./images/water.jpg",
+    "category": "stationery_office",
+    "description": "Magnetic Whiteboard (24x18) available on BuyIt"
+  },
+  {
+    "id": "Heavy+Duty+Stapler",
+    "name": "Heavy Duty Stapler",
+    "price": "#2,800",
+    "image": "./images/water2.jpg",
+    "category": "stationery_office",
+    "description": "Heavy Duty Stapler available on BuyIt"
+  },
+  {
+    "id": "Creative+Building+Blocks+(500pcs)",
+    "name": "Creative Building Blocks (500pcs)",
+    "price": "#12,000",
+    "image": "./images/water.jpg",
+    "category": "toys_games",
+    "description": "Creative Building Blocks (500pcs) available on BuyIt"
+  },
+  {
+    "id": "Family+Board+Game+Set",
+    "name": "Family Board Game Set",
+    "price": "#8,500",
+    "image": "./images/water2.jpg",
+    "category": "toys_games",
+    "description": "Family Board Game Set available on BuyIt"
+  },
+  {
+    "id": "Plush+Teddy+Bear+(Large)",
+    "name": "Plush Teddy Bear (Large)",
+    "price": "#6,200",
+    "image": "./images/water.jpg",
+    "category": "toys_games",
+    "description": "Plush Teddy Bear (Large) available on BuyIt"
+  },
+  {
+    "id": "1000-Piece+Jigsaw+Puzzle",
+    "name": "1000-Piece Jigsaw Puzzle",
+    "price": "#4,500",
+    "image": "./images/water2.jpg",
+    "category": "toys_games",
+    "description": "1000-Piece Jigsaw Puzzle available on BuyIt"
+  },
+  {
+    "id": "RC+Racing+Car",
+    "name": "RC Racing Car",
+    "price": "#15,000",
+    "image": "./images/water.jpg",
+    "category": "toys_games",
+    "description": "RC Racing Car available on BuyIt"
+  },
+  {
+    "id": "Kids+Art+Supply+Kit",
+    "name": "Kids Art Supply Kit",
+    "price": "#7,800",
+    "image": "./images/water2.jpg",
+    "category": "toys_games",
+    "description": "Kids Art Supply Kit available on BuyIt"
+  },
+  {
+    "id": "Men's+White+Shirt+&+Jeans",
+    "name": "Men's White Shirt &amp; Jeans",
+    "price": "#18,000",
+    "image": "https://images.pexels.com/photos/19895835/pexels-photo-19895835.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Men's White Shirt &amp; Jeans available on BuyIt"
+  },
+  {
+    "id": "Men's+Casual+Shorts+Set",
+    "name": "Men's Casual Shorts Set",
+    "price": "#12,000",
+    "image": "https://images.pexels.com/photos/11576957/pexels-photo-11576957.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Men's Casual Shorts Set available on BuyIt"
+  },
+  {
+    "id": "Black+Hoodie+&+Denim",
+    "name": "Black Hoodie &amp; Denim",
+    "price": "#20,000",
+    "image": "https://images.pexels.com/photos/5935381/pexels-photo-5935381.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Black Hoodie &amp; Denim available on BuyIt"
+  },
+  {
+    "id": "Elegant+Evening+Dress",
+    "name": "Elegant Evening Dress",
+    "price": "#35,000",
+    "image": "https://images.pexels.com/photos/206385/pexels-photo-206385.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Elegant Evening Dress available on BuyIt"
+  },
+  {
+    "id": "Stylish+Fashion+Dress",
+    "name": "Stylish Fashion Dress",
+    "price": "#28,000",
+    "image": "https://images.pexels.com/photos/7506675/pexels-photo-7506675.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Stylish Fashion Dress available on BuyIt"
+  },
+  {
+    "id": "Red+Bomber+Jacket",
+    "name": "Red Bomber Jacket",
+    "price": "#22,000",
+    "image": "https://images.pexels.com/photos/16069733/pexels-photo-16069733.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "category": "wears",
+    "description": "Red Bomber Jacket available on BuyIt"
+  }
+]
