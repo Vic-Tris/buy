@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             mainNav.classList.toggle("active");
 
             if (navOverlay) {
-                navOverlay.classList.toggle("active");
+                navOverlay.classList.toggle("visible");
             }
 
         });
@@ -23,10 +23,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (navOverlay) {
 
         navOverlay.addEventListener("click", () => {
+            menuToggle.classList.remove("active");
 
-            mainNav.classList.remove("active");
+            mainNav.classList.remove("open");
 
-            navOverlay.classList.remove("active");
+            navOverlay.classList.remove("visible");
 
         });
 
