@@ -1580,21 +1580,25 @@ footer h3 {
     grid-column: 1 / -1;
   }
 }
-
 /* ===================================================
    RESPONSIVE — Mobile (max-width: 768px)
    =================================================== */
 @media (max-width: 768px) {
-  /* Ensure the header establishes a positioning anchor */
+  
+  /* CRITICAL: Force header to be a relative boundary and kill any layout clipping */
   .site-header {
-    position: relative;
-    z-index: 1001;
+    position: relative !important;
+    overflow: visible !important; 
+    z-index: 9999;
   }
 
   .container {
+    display: flex;
     flex-wrap: wrap;
     padding: 0 var(--space-md);
     align-items: center;
+    position: relative;
+    overflow: visible !important;
   }
 
   .logo {
@@ -1611,7 +1615,7 @@ footer h3 {
     justify-content: flex-end;
     align-items: center;
     gap: var(--space-sm);
-    z-index: 1002;
+    z-index: 10001;
   }
 
   .menu-toggle {
@@ -1620,46 +1624,59 @@ footer h3 {
     justify-content: center;
     order: 3;
     margin-left: var(--space-xs);
-    z-index: 1003;
+    z-index: 10002;
+    cursor: pointer;
   }
 
-  /* Changed to fixed viewport anchoring for reliable display */
+  /* --- ABSOLUTE PANEL DROPDOWN --- */
   .main-nav {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Start completely offscreen right */
-    left: auto;
-    width: 280px;
-    height: 100vh;
-    background: var(--color-surface);
-    border-left: 1px solid var(--color-border);
-    border-top: none;
-    z-index: 1000;
+    position: absolute;
+    top: 100%; /* Sits directly flush underneath the header block */
+    left: 0;
+    width: 100%;
+    background: var(--color-surface, #ffffff);
+    border-top: 1px solid var(--color-border, #ddd);
+    z-index: 9995;
+    
+    /* Hide cleanly by default */
+    display: none; 
     opacity: 0;
-    transition: transform .3s ease, opacity .3s ease;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  /* Force display when JS toggles .open */
+  .main-nav.open {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-height: 80vh !important;
     overflow-y: auto;
   }
 
-  /* Smooth slider entry mechanic instead of max-height crunching */
-  .main-nav.open {
-    transform: translateX(-100%);
-    opacity: 1;
-  }
-
   .main-nav ul {
+    display: flex;
     flex-direction: column;
-    padding: var(--space-xl) 0 var(--space-sm) 0; /* Extra top padding for mobile top clear */
+    padding: var(--space-sm) 0;
+    margin: 0;
+    list-style: none;
   }
 
   .main-nav li {
     margin: 0;
+    width: 100%;
   }
 
   .main-nav a {
+    display: block;
     padding: var(--space-md) var(--space-lg);
     border-radius: 0;
     font-size: 0.95rem;
     border-bottom: 1px solid var(--color-border);
+    color: var(--color-text, #333);
+    text-decoration: none;
   }
 
   .main-nav li:last-child > a {
@@ -1678,63 +1695,68 @@ footer h3 {
     font-weight: 700;
   }
 
-  /* --- FIXED SEARCH MODULE --- */
+  /* --- FIXED MOBILE SEARCH PANELS --- */
   .srch {
     position: absolute;
-    top: 100%;
+    top: 100%; /* Drops cleanly over contents right beneath header */
     left: 0;
     width: 100%;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-sm) var(--space-md);
-    display: none; /* Controlled via JS toggling .active class */
-    z-index: 999;
+    background: var(--color-surface, #ffffff);
+    border-bottom: 1px solid var(--color-border, #ddd);
+    padding: 12px 20px;
+    
+    /* Switched off until toggled */
+    display: none; 
+    z-index: 9996; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
-  /* Add this class selector to map layout display trigger toggled via JS */
+  /* This is what your JavaScript needs to target */
   .srch.active {
-    display: block;
+    display: block !important;
+  }
+  .srch.active input[type="search"],
+  .srch.active button {
+    display: block !important;
   }
 
   .srch form {
-    display: flex;
+    display: flex !important;
     align-items: center;
     padding: 0;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
+    background: var(--color-bg, #f5f5f5);
+    border: 1px solid var(--color-border, #ccc);
     border-radius: 4px;
-    padding: 4px var(--space-xs);
+    width: 100%;
   }
 
   .srch .search-icon {
     font-size: 1.15rem;
-    padding: 6px;
+    padding: 8px;
     color: var(--color-text);
     cursor: pointer;
-    transition: color var(--transition-fast);
   }
 
-  .srch .search-icon:hover {
-    color: var(--color-accent);
-  }
-
-  /* REMOVED display: none; -> Now they are allowed to show dynamically inside form container */
+  /* RESTORE visibility to inputs and buttons inside the responsive panel */
   .srch input[type="search"] {
-    display: block;
+    display: block !important;
     flex: 1;
-    border: none;
-    background: transparent;
-    padding: var(--space-xs);
+    border: none !important;
+    background: transparent !important;
+    padding: 8px var(--space-xs);
     color: var(--color-text);
     outline: none;
+    font-size: 1rem;
+    width: 100%;
   }
-  
+
   .srch button {
-    display: block;
-    background: var(--color-accent);
-    color: white;
+    display: block !important;
+    background: var(--color-accent, #f26522);
+    color: #fff;
     border: none;
-    padding: var(--space-xs) var(--space-sm);
+    padding: 8px 16px;
+    margin: 4px;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -1756,104 +1778,27 @@ footer h3 {
     border-bottom: 1px solid var(--color-border);
   }
 
-  .has-dropdown .dropdown li:last-child a {
-    border-bottom: none;
-  }
-
-  .has-dropdown .dropdown li a:hover {
-    background-color: var(--color-surface);
-    color: var(--color-accent);
-  }
-
-  /* Hero */
-  .hero {
-    min-height: auto;
-    padding: var(--space-2xl) var(--space-md);
-  }
-
-  .hero h1 {
-    font-size: 1.5rem;
-  }
-
-  .hero h2 {
-    font-size: 0.92rem;
-  }
-
-  /* Products */
-  .product_section {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .product_section > h1 {
-    font-size: 1.3rem;
-  }
-
-  /* Contact */
-  .n {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .get {
-    flex-direction: column;
-  }
-
-  .adress,
-  .message {
-    min-width: unset;
-  }
-
-  /* About */
-  .about-section {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .about_h1 {
-    font-size: 1.4rem;
-  }
-
-  .about_nav {
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-  }
-
-  .about_nav a {
-    border-right: none;
-    padding: var(--space-sm) var(--space-md);
-  }
-
-  .about_vision {
-    flex-direction: column;
-    padding: var(--space-md);
-  }
-
-  /* Footer */
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-  }
-
-  footer {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .product-page{
-    flex-direction:column;
-  }
-
-  .product-image-section img{
-    height:350px;
-  }
-
-  .product-actions{
-    flex-direction:column;
-  }
-
-  .add-cart-btn,
-  .buy-now-btn{
-    width:100%;
-  }
+  /* Layout Spacing Fixes */
+  .hero { min-height: auto; padding: var(--space-2xl) var(--space-md); }
+  .hero h1 { font-size: 1.5rem; }
+  .hero h2 { font-size: 0.92rem; }
+  .product_section { padding: var(--space-xl) var(--space-md); }
+  .product_section > h1 { font-size: 1.3rem; }
+  .n { padding: var(--space-xl) var(--space-md); }
+  .get { flex-direction: column; }
+  .adress, .message { min-width: unset; }
+  .about-section { padding: var(--space-xl) var(--space-md); }
+  .about_h1 { font-size: 1.4rem; }
+  .about_nav { flex-wrap: wrap; gap: var(--space-xs); }
+  .about_nav a { border-right: none; padding: var(--space-sm) var(--space-md); }
+  .about_vision { flex-direction: column; padding: var(--space-md); }
+  .footer-content { grid-template-columns: 1fr; gap: var(--space-xl); }
+  footer { padding: var(--space-xl) var(--space-md); }
+  .product-page { flex-direction: column; }
+  .product-image-section img { height: 350px; }
+  .product-actions { flex-direction: column; }
+  .add-cart-btn, .buy-now-btn { width: 100%; }
 }
-
 /* ===================================================
    RESPONSIVE — Small Mobile (max-width: 480px)
    =================================================== */

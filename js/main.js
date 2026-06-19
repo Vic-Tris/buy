@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         menuToggle.addEventListener("click", () => {
 
-            mainNav.classList.toggle("active");
+            mainNav.classList.toggle("open");
 
             if (navOverlay) {
                 navOverlay.classList.toggle("visible");
@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (navOverlay) {
 
         navOverlay.addEventListener("click", () => {
+          if (menuToggle) 
             menuToggle.classList.remove("active");
+          
 
             mainNav.classList.remove("open");
 
@@ -33,11 +35,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     }
 
-
     // ================= SEARCH =================
 
     const searchForm = document.getElementById("search-form");
     const searchInput = document.getElementById("search");
+    const searchcontainer = document.getElementById(".srch");
 
     if (searchForm && searchInput) {
 
@@ -68,11 +70,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const searchBox = document.createElement("div");
-
         searchBox.id = "search-suggestions";
-
         searchInput.parentElement.style.position = "relative";
-
         searchInput.parentElement.appendChild(searchBox);
 
         function showSuggestions(query) {
