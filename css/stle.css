@@ -467,6 +467,8 @@ textarea {
 
 .srch input[type="search"] {
   border: none;
+  display: block;
+  width: 120px;
   outline: none;
   background: transparent;
   padding: 8px 4px;
@@ -483,6 +485,7 @@ textarea {
   background: var(--color-primary);
   color: var(--color-surface);
   border: none;
+  display:none;
   border-radius: var(--radius-full);
   padding: 8px 16px;
   font-size: 0.8rem;
