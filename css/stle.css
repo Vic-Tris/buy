@@ -1606,7 +1606,7 @@ footer h3 {
   .site-header {
     position: relative !important;
     overflow: visible !important;
-    z-index: 9999;
+    /* z-index: 9999; */
   }
 
   .container {
@@ -1823,7 +1823,7 @@ footer h3 {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5) !important;
-    z-index: 99998 !important;
+    /* z-index: 99998 !important; */
     display: none;
     
     /* Ignore click gestures entirely when closed to safeguard lower links */
