@@ -1,13 +1,57 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // ================= MENU (FIXED CLASS MISMATCH) =================
+    // 1. FETCH & INJECT GLOBAL LAYOUT COMPONENTS FIRST
+    await includeComponent("global-header", "./components/header.html");
+    await includeComponent("global-footer", "./components/footer.html");
+
+    // 2. RUN FUNCTION TO INITIALIZE RESPONSIVE INTERFACES
+    initResponsiveComponents();
+});
+
+// Clean Modular Component Injection Engine
+async function includeComponent(targetId, filePath) {
+    const element = document.getElementById(targetId);
+    if (!element) return;
+    try {
+        const response = await fetch(filePath);
+        if (response.ok) {
+            element.innerHTML = await response.text();
+        } else {
+            console.error(`Failed to fetch component file: ${filePath}`);
+        }
+    } catch (error) {
+        console.error(`Error loading HTML layout snippet:`, error);
+    }
+}
+
+// Group Interface Interactions Securely 
+function initResponsiveComponents() {
+    
+    // ================= ELEMENTS LOOKUP =================
     const menuToggle = document.getElementById("menu-toggle");
     const mainNav = document.getElementById("main-nav");
     const navOverlay = document.getElementById("nav-overlay");
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("search");
+    const searchPanel = document.querySelector(".srch");
+    const searchTrigger = document.getElementById("mobile-search-trigger");
 
+    // ================= AUTOMATED ACTIVE PAGE LINK HIGHLIGHTS =================
+    const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+    const navLinks = document.querySelectorAll(".main-nav a");
+
+    navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentUrl) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+
+    // ================= MOBILE NAVIGATION DRAWER TOGGLES =================
     if (menuToggle && mainNav) {
         menuToggle.addEventListener("click", () => {
-            mainNav.classList.toggle("open"); // Toggles menu container slider
+            mainNav.classList.toggle("open"); // Toggles menu panel slider container
 
             if (navOverlay) {
                 navOverlay.classList.toggle("visible");
@@ -18,29 +62,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (navOverlay) {
         navOverlay.addEventListener("click", () => {
             if (menuToggle) menuToggle.classList.remove("active");
-            mainNav.classList.remove("open");
+            if (mainNav) mainNav.classList.remove("open");
             navOverlay.classList.remove("visible");
         });
     }
 
-
-    // ================= SEARCH (FIXED EVENT BINDING) =================
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("search");
-    const searchPanel = document.querySelector(".srch");
-    const searchTrigger = document.getElementById("mobile-search-trigger");
-
+    // ================= RESPONSIVE SEARCH AND SUGGESTIONS =================
     if (searchForm && searchInput) {
         let products = [];
 
-        try {
-            const response = await fetch("./data/products.json");
-            products = await response.json();
-        } catch (error) {
-            console.error("Failed to load products:", error);
-        }
+        // Load your data async wrapper
+        (async () => {
+            try {
+                const response = await fetch("./data/products.json");
+                products = await response.json();
+            } catch (error) {
+                console.error("Failed to load products database:", error);
+            }
+        })();
 
-        // Handle opening and focusing the mobile search container bar
+        // Handle opening and focusing the mobile search container bar dropdown
         if (searchTrigger && searchPanel) {
             searchTrigger.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -107,4 +148,4 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
     }
-});
+}

@@ -360,7 +360,7 @@ textarea {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 99;
+  /* z-index: 99; */
   opacity: 0;
   transition: opacity var(--transition-normal);
 }
@@ -1654,12 +1654,12 @@ footer h3 {
     height: 100vh !important;
     
     /* Sleek, light-shaded black background (Charcoal Dark Theme) */
-    background: transparent !important; 
+    background: #fff !important; 
     border-left: 1px  !important; 
     border-top: none !important;
     
     /* FIXED STACKING CONTEXT: Sitting at absolute top level beats the backdrop barrier */
-    z-index: 1000000 !important; 
+    /* z-index: 1000000 !important;  */
     
     display: block !important;
     max-height: none !important;
@@ -1693,8 +1693,8 @@ footer h3 {
     padding: var(--space-md) var(--space-lg);
     border-radius: 0;
     font-size: 0.95rem;
-    border-bottom: 1px ; /* Subtle dark divider separation stroke */
-    color: #e0e0e0 !important; /* Off-white for clean high contrast readability */
+    border-bottom: 1px ;
+    color: var(--color-primary);
     text-decoration: none;
   }
 
