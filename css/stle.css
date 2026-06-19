@@ -1654,12 +1654,12 @@ footer h3 {
     height: 100vh !important;
     
     /* Sleek, light-shaded black background (Charcoal Dark Theme) */
-    background: #1a1a1a !important; 
-    border-left: 1px solid #2d2d2d !important; 
+    background: transparent !important; 
+    border-left: 1px  !important; 
     border-top: none !important;
     
     /* FIXED STACKING CONTEXT: Sitting at absolute top level beats the backdrop barrier */
-    z-index: 1000000 !important; 
+    /* z-index: 1000000 !important;  */
     
     display: block !important;
     max-height: none !important;
@@ -1693,7 +1693,7 @@ footer h3 {
     padding: var(--space-md) var(--space-lg);
     border-radius: 0;
     font-size: 0.95rem;
-    border-bottom: 1px solid #2d2d2d; /* Subtle dark divider separation stroke */
+    border-bottom: 1px ; /* Subtle dark divider separation stroke */
     color: #e0e0e0 !important; /* Off-white for clean high contrast readability */
     text-decoration: none;
   }
@@ -1823,7 +1823,7 @@ footer h3 {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5) !important;
-    z-index: 99998 !important;
+    /* z-index: 99998 !important; */
     display: none;
     
     /* Ignore click gestures entirely when closed to safeguard lower links */
