@@ -1581,23 +1581,40 @@ footer h3 {
   }
 }
 /* ===================================================
+   RESPONSIVE — Tablet (max-width: 1024px)
+   =================================================== */
+@media (max-width: 1024px) {
+  .design {
+    width: 95%;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  .footer_brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ===================================================
    RESPONSIVE — Mobile (max-width: 768px)
    =================================================== */
 @media (max-width: 768px) {
   
-  /* CRITICAL: Force header to be a relative boundary and kill any layout clipping */
+  /* CRITICAL: Force header block relative containment boundaries open */
   .site-header {
     position: relative !important;
-    overflow: visible !important; 
+    overflow: visible !important;
     z-index: 9999;
   }
 
   .container {
-    display: flex;
+    display: flex !important;
     flex-wrap: wrap;
     padding: 0 var(--space-md);
     align-items: center;
-    position: relative;
     overflow: visible !important;
   }
 
@@ -1628,38 +1645,37 @@ footer h3 {
     cursor: pointer;
   }
 
-  /* --- ABSOLUTE PANEL DROPDOWN --- */
+  /* --- VIEWPORT PANNELLING SIDE MENU --- */
   .main-nav {
-    position: absolute;
-    top: 100%; /* Sits directly flush underneath the header block */
-    left: 0;
-    width: 100%;
-    background: var(--color-surface, #ffffff);
-    border-top: 1px solid var(--color-border, #ddd);
-    z-index: 9995;
+    position: fixed !important;
+    top: 0;
+    right: -100%; /* Sits cleanly offscreen right side edge */
+    left: auto;
+    width: 280px;
+    height: 100vh !important;
+    background: var(--color-surface, #ffffff) !important;
+    border-left: 1px solid var(--color-border, #ddd);
+    border-top: none !important;
+    z-index: 99999 !important;
     
-    /* Hide cleanly by default */
-    display: none; 
+    /* Clean overrides for resetting structural desktop bounds */
+    display: block !important;
+    max-height: none !important;
     opacity: 0;
-    visibility: hidden;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.25s ease-in-out;
+    overflow-y: auto;
+    transition: transform .3s ease-in-out, opacity .3s ease-in-out !important;
   }
 
-  /* Force display when JS toggles .open */
+  /* Triggered Slide Execution Class */
   .main-nav.open {
-    display: block !important;
-    visibility: visible !important;
+    transform: translateX(-100%) !important;
     opacity: 1 !important;
-    max-height: 80vh !important;
-    overflow-y: auto;
   }
 
   .main-nav ul {
-    display: flex;
     flex-direction: column;
-    padding: var(--space-sm) 0;
+    padding: var(--space-2xl) 0 var(--space-sm) 0; /* Clear area for mobile screen tops */
+    display: flex;
     margin: 0;
     list-style: none;
   }
@@ -1695,70 +1711,59 @@ footer h3 {
     font-weight: 700;
   }
 
-  /* --- FIXED MOBILE SEARCH PANELS --- */
+  /* --- FIXED MOBILE DROP DOWN SEARCH PANEL --- */
   .srch {
-    position: absolute;
-    top: 100%; /* Drops cleanly over contents right beneath header */
-    left: 0;
-    width: 100%;
-    background: var(--color-surface, #ffffff);
-    border-bottom: 1px solid var(--color-border, #ddd);
-    padding: 12px 20px;
-    
-    /* Switched off until toggled */
-    display: none; 
-    z-index: 9996; 
+    position: absolute !important;
+    top: 100% !important; /* Positions flush beneath the header container line */
+    left: 0 !important;
+    width: 100% !important;
+    background: var(--color-surface, #ffffff) !important;
+    border-bottom: 1px solid var(--color-border, #ddd) !important;
+    padding: 12px 20px !important;
+    z-index: 10000 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    
+    display: none !important; /* Kept default hidden */
   }
 
-  /* This is what your JavaScript needs to target */
+  /* Active dynamic trigger interface state class mapping */
   .srch.active {
-    display: block !important;
-  }
-  .srch.active input[type="search"],
-  .srch.active button {
     display: block !important;
   }
 
   .srch form {
     display: flex !important;
-    align-items: center;
-    padding: 0;
-    background: var(--color-bg, #f5f5f5);
-    border: 1px solid var(--color-border, #ccc);
-    border-radius: 4px;
-    width: 100%;
+    align-items: center !important;
+    padding: 0 !important;
+    background: var(--color-bg, #f5f5f5) !important;
+    border: 1px solid var(--color-border, #ccc) !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    box-shadow: none !important;
   }
 
-  .srch .search-icon {
-    font-size: 1.15rem;
-    padding: 8px;
-    color: var(--color-text);
-    cursor: pointer;
-  }
-
-  /* RESTORE visibility to inputs and buttons inside the responsive panel */
+  /* Restore text inputs field elements inside the panel visibility */
   .srch input[type="search"] {
     display: block !important;
-    flex: 1;
+    flex: 1 !important;
     border: none !important;
     background: transparent !important;
-    padding: 8px var(--space-xs);
+    padding: 8px var(--space-xs) !important;
     color: var(--color-text);
-    outline: none;
-    font-size: 1rem;
-    width: 100%;
+    outline: none !important;
+    font-size: 1rem !important;
+    width: 100% !important;
   }
 
   .srch button {
     display: block !important;
-    background: var(--color-accent, #f26522);
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    margin: 4px;
-    border-radius: 4px;
-    cursor: pointer;
+    background: var(--color-accent, #f26522) !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    margin: 4px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
   }
 
   .has-dropdown .dropdown {
@@ -1778,7 +1783,16 @@ footer h3 {
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Layout Spacing Fixes */
+  .has-dropdown .dropdown li:last-child a {
+    border-bottom: none;
+  }
+
+  .has-dropdown .dropdown li a:hover {
+    background-color: var(--color-surface);
+    color: var(--color-accent);
+  }
+
+  /* Structural Page Content Adjustments */
   .hero { min-height: auto; padding: var(--space-2xl) var(--space-md); }
   .hero h1 { font-size: 1.5rem; }
   .hero h2 { font-size: 0.92rem; }
@@ -1794,11 +1808,29 @@ footer h3 {
   .about_vision { flex-direction: column; padding: var(--space-md); }
   .footer-content { grid-template-columns: 1fr; gap: var(--space-xl); }
   footer { padding: var(--space-xl) var(--space-md); }
+  
   .product-page { flex-direction: column; }
   .product-image-section img { height: 350px; }
   .product-actions { flex-direction: column; }
   .add-cart-btn, .buy-now-btn { width: 100%; }
+
+  /* Back Drop Overlay Layer */
+  .nav-overlay {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 99998 !important;
+    display: none;
+  }
+
+  .nav-overlay.visible {
+    display: block !important;
+  }
 }
+
 /* ===================================================
    RESPONSIVE — Small Mobile (max-width: 480px)
    =================================================== */
@@ -1817,7 +1849,7 @@ footer h3 {
   }
 
   .main-nav.open {
-    transform: translateX(-100%);
+    transform: translateX(-100%) !important;
   }
 
   .main-nav a {
@@ -1835,33 +1867,16 @@ footer h3 {
     border-radius: 0;
   }
 
-  .hero h1 {
-    font-size: 1.3rem;
-  }
-
-  .hero h2 {
-    font-size: 0.85rem;
-  }
+  .hero h1 { font-size: 1.3rem; }
+  .hero h2 { font-size: 0.85rem; }
 
   .animal_wrapper {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: var(--space-md);
   }
 
-  .animal img {
-    height: 150px;
-  }
-
-  .animal h1 {
-    font-size: 0.85rem;
-  }
-
-  .animal p {
-    font-size: 0.9rem;
-  }
-
-  .animal a {
-    font-size: 0.8rem;
-    padding: var(--space-sm) var(--space-md);
-  }
+  .animal img { height: 150px; }
+  .animal h1 { font-size: 0.85rem; }
+  .animal p { font-size: 0.9rem; }
+  .animal a { font-size: 0.8rem; padding: var(--space-sm) var(--space-md); }
 }
