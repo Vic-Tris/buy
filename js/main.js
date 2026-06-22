@@ -1,11 +1,17 @@
+// Global Cart Engine State Container
+let cart = JSON.parse(localStorage.getItem("BUYIT_CART")) || [];
+let activeDiscount = 0; // Tracks live percentage off deductions
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     // 1. FETCH & INJECT GLOBAL LAYOUT COMPONENTS FIRST
     await includeComponent("global-header", "./components/header.html");
     await includeComponent("global-footer", "./components/footer.html");
 
-    // 2. RUN FUNCTION TO INITIALIZE RESPONSIVE INTERFACES
+    // 2. RUN FUNCTIONS TO INITIALIZE RESPONSIVE INTERFACES & CART ENGINE
     initResponsiveComponents();
+    initCartEngine();
+    window.syncHeaderAuthUI(); // Sync user auth state in header on page load
 });
 
 // Clean Modular Component Injection Engine
@@ -52,7 +58,6 @@ function initResponsiveComponents() {
     if (menuToggle && mainNav) {
         menuToggle.addEventListener("click", () => {
             mainNav.classList.toggle("open"); // Toggles menu panel slider container
-
             if (navOverlay) {
                 navOverlay.classList.toggle("visible");
             }
@@ -64,6 +69,7 @@ function initResponsiveComponents() {
             if (menuToggle) menuToggle.classList.remove("active");
             if (mainNav) mainNav.classList.remove("open");
             navOverlay.classList.remove("visible");
+            document.getElementById("cart-drawer")?.classList.remove("open");
         });
     }
 
@@ -149,3 +155,246 @@ function initResponsiveComponents() {
         });
     }
 }
+
+// ===================================================
+// CORE SHOPPING CART LOGIC ENGINE (NEW UPGRADE)
+// ===================================================
+function initCartEngine() {
+    const cartLink = document.querySelector(".cart-link");
+    const cartDrawer = document.getElementById("cart-drawer");
+    const closeCartBtn = document.getElementById("close-cart-btn");
+    const navOverlay = document.getElementById("nav-overlay");
+    const applyPromoBtn = document.getElementById("apply-promo-btn");
+    const promoInput = document.getElementById("promo-code-input");
+    const promoMessage = document.getElementById("promo-message");
+
+    // Toggle Side Cart Panel Drawer
+    if (cartLink && cartDrawer) {
+        cartLink.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            cartDrawer.classList.toggle("open");
+            if (navOverlay) navOverlay.classList.toggle("visible");
+        });
+    }
+
+    if (closeCartBtn && cartDrawer) {
+        closeCartBtn.addEventListener("click", () => {
+            cartDrawer.classList.remove("open");
+            if (navOverlay) navOverlay.classList.remove("visible");
+        });
+    }
+
+    // Handle Sliding Drawer Coupon Validation
+    if (applyPromoBtn && promoInput) {
+        applyPromoBtn.addEventListener("click", () => {
+            const code = promoInput.value.trim().toUpperCase();
+            if (code === "SAVE10") {
+                activeDiscount = 0.10;
+                promoMessage.textContent = "Promo Applied! 10% Off.";
+                promoMessage.className = "promo-msg success";
+            } else if (code === "SUPERBUY") {
+                activeDiscount = 0.20;
+                promoMessage.textContent = "Mega Code Active! 20% Off.";
+                promoMessage.className = "promo-msg success";
+            } else {
+                activeDiscount = 0;
+                promoMessage.textContent = "Invalid Code.";
+                promoMessage.className = "promo-msg error";
+            }
+            updateCartDOM();
+        });
+    }
+
+    // Direct initialization sync
+    updateCartDOM();
+}
+
+// Global API Hook with strict text stripping regex to parse your custom price formatting safely!
+window.addToCart = function(id, name, price, image) {
+    // Strips out non-numeric characters (including "#" and commas ",")
+    const numericPrice = parseFloat(String(price).replace(/[^0-9.]/g, ""));
+    
+    if (isNaN(numericPrice)) {
+        console.error(`Invalid formatting item price match data parsing failed for: ${name}`);
+        return;
+    }
+
+    const existingProduct = cart.find(item => item.id === id);
+
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        cart.push({ id, name, price: numericPrice, image, quantity: 1 });
+    }
+    
+    saveAndSyncCart();
+    
+    // Auto-slide open the drawer UI
+    document.getElementById("cart-drawer")?.classList.add("open");
+    document.getElementById("nav-overlay")?.classList.add("visible");
+};
+
+window.changeQuantity = function(id, delta) {
+    const product = cart.find(item => item.id === id);
+    if (!product) return;
+    
+    product.quantity += delta;
+    if (product.quantity <= 0) {
+        cart = cart.filter(item => item.id !== id);
+    }
+    saveAndSyncCart();
+};
+
+window.removeProductFromCart = function(id) {
+    cart = cart.filter(item => item.id !== id);
+    saveAndSyncCart();
+};
+
+function saveAndSyncCart() {
+    localStorage.setItem("BUYIT_CART", JSON.stringify(cart));
+    updateCartDOM();
+}
+
+// Complete Dynamic HTML Slide Panel Content Sync Loop
+window.updateCartDOM = function() {
+    const itemsContainer = document.getElementById("cart-drawer-items");
+    const cartBadge = document.getElementById("cart-badge");
+    const cartCountTitle = document.getElementById("cart-count-title");
+    const subtotalLabel = document.getElementById("cart-subtotal");
+    const discountRow = document.getElementById("discount-row");
+    const discountLabel = document.getElementById("cart-discount");
+    const totalLabel = document.getElementById("cart-total");
+
+    const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    
+    // Sync header badge indicator numbers
+    if (cartBadge) {
+        cartBadge.textContent = totalItemsCount;
+        totalItemsCount > 0 ? cartBadge.classList.remove("hidden") : cartBadge.classList.add("hidden");
+    }
+    if (cartCountTitle) cartCountTitle.textContent = totalItemsCount;
+
+    if (!itemsContainer) return;
+
+    if (cart.length === 0) {
+        itemsContainer.innerHTML = `<p style="text-align:center; padding: 40px 0; color:#888;">Your cart feels light. Start adding items!</p>`;
+        if (subtotalLabel) subtotalLabel.textContent = "$0.00";
+        if (discountRow) discountRow.style.display = "none";
+        if (totalLabel) totalLabel.textContent = "$0.00";
+        return;
+    }
+
+    itemsContainer.innerHTML = cart.map(item => `
+        <div class="cart-item-card">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-info">
+                <h4>${item.name}</h4>
+                <span class="cart-item-price">#${(item.price * item.quantity).toLocaleString()}</span>
+                <div class="quantity-controls">
+                    <button onclick="changeQuantity('${item.id}', -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQuantity('${item.id}', 1)">+</button>
+                    <span style="margin-left: auto;"></span>
+                    <button class="remove-item-btn" onclick="removeProductFromCart('${item.id}')">Remove</button>
+                </div>
+            </div>
+        </div>
+    `).join("");
+
+    // Calculate final metrics totals values loops
+    const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const discountAmount = subtotal * activeDiscount;
+    const finalTotal = subtotal - discountAmount;
+
+    if (subtotalLabel) subtotalLabel.textContent = `#${subtotal.toLocaleString()}`;
+    
+    if (activeDiscount > 0 && discountRow && discountLabel) {
+        discountRow.style.display = "flex";
+        discountLabel.textContent = `-#${discountAmount.toLocaleString()}`;
+    } else if (discountRow) {
+        discountRow.style.display = "none";
+    }
+
+    if (totalLabel) totalLabel.textContent = `#${finalTotal.toLocaleString()}`;
+};
+
+// ===================================================
+// USER AUTHENTICATION STATE SYNC (NEW UPGRADE)
+// ===================================================
+window.syncHeaderAuthUI = function() {
+    const authContainer = document.getElementById("nav-auth-container");
+    if (!authContainer) return;
+
+    // Check if user session data exists in localStorage state
+    const loggedInUser = localStorage.getItem("BUYIT_USER");
+
+    if (loggedInUser) {
+        // If logged in, turn the link into a Log Out button
+        authContainer.innerHTML = `
+            <a href="#" id="logout-trigger" style="color: var(--color-primary);">Log Out</a>
+        `;
+
+        // Bind the active sign-out event process handler
+        document.getElementById("logout-trigger")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("BUYIT_USER"); // Purge auth details data
+            alert("You have been securely logged out.");
+            window.location.reload(); // Refresh viewport layout states
+        });
+    } else {
+        // If not logged in, maintain standard link framework
+        authContainer.innerHTML = `<a href="login.html">Log In</a>`;
+    }
+};
+
+// ===================================================
+// GLOBAL WISHLIST ENGINE MODULE
+// ===================================================
+let wishlist = JSON.parse(localStorage.getItem("BUYIT_WISHLIST")) || [];
+
+window.toggleWishlist = function(productId, event) {
+    if (event) event.preventDefault(); // Stop native link click bubble loops
+    
+    const index = wishlist.indexOf(productId);
+    if (index > -1) {
+        wishlist.splice(index, 1); // Remove from favorites if it exists
+    } else {
+        wishlist.push(productId); // Add item identifier code string to array
+    }
+    
+    localStorage.setItem("BUYIT_WISHLIST", JSON.stringify(wishlist));
+    window.updateWishlistUI();
+};
+
+window.updateWishlistUI = function() {
+    const badge = document.getElementById("wishlist-badge");
+    const headerIcon = document.getElementById("wishlist-icon-header");
+    
+    if (badge) {
+        badge.textContent = wishlist.length;
+        wishlist.length > 0 ? badge.classList.remove("hidden") : badge.classList.add("hidden");
+    }
+    
+    // Swap header icon outline state based on whether there are active items
+    if (headerIcon) {
+        if (wishlist.length > 0) {
+            headerIcon.className = "fa-solid fa-heart";
+            headerIcon.style.color = "#ec4899";
+        } else {
+            headerIcon.className = "fa-regular fa-heart";
+            headerIcon.style.color = "inherit";
+        }
+    }
+    
+    // Dynamically update product view pages if active heart switches exist on page
+    const productHeart = document.getElementById("product-page-heart");
+    if (productHeart && window.productId) {
+        if (wishlist.includes(window.productId)) {
+            productHeart.className = "fa-solid fa-heart";
+            productHeart.style.color = "#ec4899";
+        } else {
+            productHeart.className = "fa-regular fa-heart";
+            productHeart.style.color = "inherit";
+        }
+    }
+};

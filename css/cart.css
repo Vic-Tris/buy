@@ -1,0 +1,289 @@
+/* =====================================
+   CART PAGE
+===================================== */
+
+.cart-container{
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 25px;
+}
+
+.cart-container h1{
+    margin-bottom: 30px;
+    color: var(--color-text);
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* =====================================
+   EMPTY CART
+===================================== */
+
+.cart-empty{
+    background: var(--color-surface);
+    padding: 70px 20px;
+    border-radius: 20px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.cart-empty i{
+    font-size:70px;
+    color:var(--color-primary);
+    margin-bottom:20px;
+}
+
+.cart-empty p{
+    font-size:1.1rem;
+    margin-bottom:25px;
+}
+
+.cart-empty a{
+    background:var(--color-primary);
+    color:white;
+    padding:15px 25px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.cart-empty a:hover{
+    background:var(--color-primary-dark);
+}
+
+
+/* =====================================
+   CART ITEMS
+===================================== */
+
+.cart-items{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:var(--color-surface);
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.cart-item img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.cart-details{
+    flex:1;
+}
+
+.cart-details h3{
+    margin-bottom:10px;
+    color:var(--color-text);
+}
+
+.cart-price{
+    color:var(--color-primary);
+    font-weight:700;
+    font-size:1.1rem;
+}
+
+.quantity-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:15px;
+}
+
+.quantity-box button{
+    width:40px;
+    height:40px;
+    border:none;
+    background:var(--color-primary);
+    color:white;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+.quantity-box span{
+    font-weight:700;
+}
+
+
+/* =====================================
+   REMOVE BUTTON
+===================================== */
+
+.remove-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.remove-btn:hover{
+    background:#991b1b;
+}
+
+
+/* =====================================
+   SUMMARY
+===================================== */
+
+.cart-summary{
+    margin-top:30px;
+    background:var(--color-surface);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.cart-summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+    font-size:1rem;
+}
+
+.cart-summary-row.total{
+    border-top:1px solid var(--color-border);
+    padding-top:20px;
+    font-size:1.3rem;
+    font-weight:700;
+}
+
+
+/* =====================================
+   CHECKOUT BUTTON
+===================================== */
+
+.checkout-btn{
+    width:100%;
+    border:none;
+    background:var(--color-primary);
+    color:white;
+    padding:18px;
+    border-radius:15px;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:700;
+    transition:.3s;
+}
+
+.checkout-btn:hover{
+    background:var(--color-primary-dark);
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:768px){
+
+    .cart-item{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .cart-item img{
+        width:180px;
+        height:180px;
+    }
+
+    .quantity-box{
+        justify-content:center;
+    }
+
+    .remove-btn{
+        width:100%;
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .cart-container{
+        padding:15px;
+    }
+
+    .cart-item img{
+        width:150px;
+        height:150px;
+    }
+
+    .cart-container h1{
+        font-size:1.5rem;
+    }
+
+}
+
+/* =====================================
+   UPGRADE: DESKTOP TWO-COLUMN LAYOUT GRID
+   ===================================== */
+#cart-active-wrapper {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Adjust top margin out of your old style block to handle layout positioning */
+.cart-summary {
+    margin-top: 0 !important; 
+}
+
+/* Upgraded Page Promo Code Entry Layout Panel */
+.page-promo-box {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0 5px 0;
+}
+
+.page-promo-box input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.page-promo-box button {
+    background: var(--color-text);
+    color: var(--color-surface);
+    border: none;
+    padding: 0 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.page-promo-box button:hover {
+    opacity: 0.9;
+}
+
+/* Responsive Grid Adaptation Overrides */
+@media (max-width: 992px) {
+    #cart-active-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}

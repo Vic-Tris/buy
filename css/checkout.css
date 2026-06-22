@@ -1,0 +1,146 @@
+.checkout-container{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.checkout-container h1{
+    margin-bottom:30px;
+}
+
+.checkout-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:30px;
+}
+
+.checkout-form,
+.order-summary{
+    background:var(--color-surface);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.checkout-form h2{
+    margin-bottom:20px;
+    margin-top:30px;
+}
+
+.checkout-form h2:first-child{
+    margin-top:0;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:20px;
+}
+
+.input-group label{
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+    padding:14px;
+    border:1px solid var(--color-border);
+    border-radius:12px;
+    outline:none;
+}
+
+.input-group textarea{
+    min-height:100px;
+    resize:none;
+}
+
+.payment-methods{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.payment-methods label{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.checkout-item{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+    align-items:center;
+}
+
+.checkout-item img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.checkout-item h4{
+    margin-bottom:8px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+
+.total{
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--color-primary);
+}
+
+.coupon-box{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+}
+
+.coupon-box input{
+    flex:1;
+    padding:14px;
+    border:1px solid var(--color-border);
+    border-radius:10px;
+}
+
+.coupon-box button,
+#place-order-btn{
+    background:var(--color-primary);
+    color:white;
+    border:none;
+    cursor:pointer;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.coupon-box button{
+    padding:14px 20px;
+}
+
+#place-order-btn{
+    width:100%;
+    margin-top:30px;
+    padding:18px;
+    font-size:1rem;
+}
+
+#place-order-btn:hover,
+.coupon-box button:hover{
+    background:var(--color-primary-dark);
+}
+
+@media(max-width:768px){
+
+    .checkout-grid{
+        grid-template-columns:1fr;
+    }
+
+}

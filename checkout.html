@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — BuyIt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/stle.css">
+<link rel="stylesheet" href="./css/checkout.css">
+<script src="./js/main.js" defer></script>
+<script src="./js/checkout.js" defer></script>
+</head>
+<body>
+<div class="design">
+<header class="site-header" id="global-header"></header>
+<div class="nav-overlay" id="nav-overlay"></div>
+<section class="checkout-container">
+<h1>Checkout</h1>
+<div class="checkout-grid">
+<!-- LEFT -->
+<div class="checkout-form">
+
+<h2>Customer Information</h2>
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="customer-name">
+</div>
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="email" id="customer-email">
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input type="text" id="customer-phone">
+</div>
+
+
+<h2>Delivery Address</h2>
+
+<div class="input-group">
+<label>State</label>
+
+<select id="customer-state">
+
+<option value="Lagos">Lagos</option>
+<option value="Oyo">Oyo</option>
+<option value="Abuja">Abuja</option>
+<option value="Rivers">Rivers</option>
+<option value="Kano">Kano</option>
+<option value="Enugu">Enugu</option>
+<option value="Others">Others</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+<label>City</label>
+<input type="text" id="customer-city">
+</div>
+
+<div class="input-group">
+<label>Street Address</label>
+<textarea id="customer-address"></textarea>
+</div>
+
+
+<h2>Payment Method</h2>
+
+<div class="payment-methods">
+
+<label>
+<input type="radio"
+name="payment"
+value="Paystack"
+checked>
+Paystack
+</label>
+
+<label>
+<input type="radio"
+name="payment"
+value="Bank Transfer">
+Bank Transfer
+</label>
+
+<label>
+<input type="radio"
+name="payment"
+value="Cash On Delivery">
+Cash On Delivery
+</label>
+
+</div>
+
+</div>
+
+
+<!-- RIGHT -->
+<div class="order-summary">
+
+<h2>Order Summary</h2>
+
+<div id="checkout-items"></div>
+
+
+<div class="summary-row">
+<span>Subtotal</span>
+<span id="subtotal">₦0</span>
+</div>
+
+<div class="summary-row">
+<span>Delivery Fee</span>
+<span id="shipping-fee">₦0</span>
+</div>
+
+<div class="summary-row discount-row">
+<span>Discount</span>
+<span id="discount-amount">₦0</span>
+</div>
+
+<div class="summary-row total">
+<span>Total</span>
+<span id="grand-total">₦0</span>
+</div>
+
+
+<div class="coupon-box">
+
+<input
+type="text"
+id="coupon-code"
+placeholder="Coupon code">
+
+<button id="apply-coupon">
+Apply
+</button>
+
+</div>
+
+
+<button id="place-order-btn">
+Place Order
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<footer id="global-footer"></footer>
+
+</div>
+
+</body>
+</html>

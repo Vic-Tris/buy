@@ -14,49 +14,43 @@
 <body>
   <div class="design">
 
-    <!-- Header -->
     <header class="site-header" id="global-header"></header>
-<div class="nav-overlay" id="nav-overlay"></div>
-<div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-overlay" id="nav-overlay"></div>
 
-<section class="product_page">
+    <section class="product_page">
+        <div class="product_gallery">
+            <img id="product-image" src="" alt="">
+        </div>
 
+        <div class="product_details">
+            <h1 id="product-name"></h1>
 
-<div class="product_gallery">
-    <img id="product-image" src="" alt="">
-</div>
+            <div class="rating">
+                ★★★★★ <span>4.9 Rating</span>
+            </div>
 
-<div class="product_details">
+            <h2 id="product-price"></h2>
 
-    <h1 id="product-name"></h1>
+            <p id="product-description"></p>
 
-    <div class="rating">
-        ★★★★★ <span>4.9 Rating</span>
-    </div>
+            <div class="stock">
+                <i class="fa-solid fa-circle-check"></i>
+                In Stock
+            </div>
 
-    <h2 id="product-price"></h2>
+            <div class="actions">
+                <button class="add-cart" id="add-to-cart-btn">
+                    <i class="fa-solid fa-cart-shopping"></i> Add To Cart
+                </button>
 
-    <p id="product-description"></p>
+                <button class="buy-now" id="buy-now-btn">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </section>
 
-    <div class="stock">
-        <i class="fa-solid fa-circle-check"></i>
-        In Stock
-    </div>
-
-    <div class="actions">
-        <button class="add-cart">
-            <i class="fa-solid fa-cart-shopping"></i>
-            Add To Cart
-        </button>
-
-        <button class="buy-now">
-            Buy Now
-        </button>
-    </div>
-
-</div>
-```
-
-</section>
-
-<script src="./js/product.js"></script>
+    <footer id="global-footer"></footer> 
+  </div> <script src="./js/product.js" defer></script>
+</body>
+</html>
