@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Profile — BuyIt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <script src="./js/main.js" defer></script>
+    <script src="./js/profile.js" defer></script>
+</head>
+<body>
+    <div class="design">
+        <header class="site-header" id="global-header"></header>
+        <div class="nav-overlay" id="nav-overlay"></div>
+
+        <main class="profile-container">
+            <aside class="profile-sidebar">
+                <div class="user-meta-card">
+                    <div class="avatar-circle" id="profile-avatar">U</div>
+                    <h2 id="profile-display-name">Loading...</h2>
+                    <p id="profile-display-email">loading@buyit.com</p>
+                    <p id="profile-display-phone" class="phone-label">No Phone Provided</p>
+                </div>
+
+                <nav class="profile-menu">
+                    <a href="#orders-section" class="menu-item active" id="tab-orders">
+                        <i class="fa-solid fa-bag-shopping"></i> My Orders
+                    </a>
+                    <a href="wishlist.html" class="menu-item">
+                        <i class="fa-solid fa-heart"></i> My Wishlist
+                    </a>
+                    <a href="#address-section" class="menu-item" id="tab-addresses">
+                        <i class="fa-solid fa-location-dot"></i> Address Book
+                    </a>
+                    <button class="menu-item logout-btn" id="profile-logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </nav>
+            </aside>
+
+            <section class="profile-content">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-orders">0</span>
+                        <span class="stat-label">Orders Placed</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-wishlist">0</span>
+                        <span class="stat-label">Wishlist Items</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-cart">0</span>
+                        <span class="stat-label">Cart Items</span>
+                    </div>
+                </div>
+
+                <div id="content-display-pane">
+                    </div>
+            </section>
+        </main>
+
+        <div class="address-modal" id="address-modal">
+            <div class="modal-card">
+                <h3>Manage Shipping Address</h3>
+                <form id="address-modal-form">
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text" id="modal-state" required placeholder="e.g., Oyo">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="modal-city" required placeholder="e.g., Ibadan">
+                    </div>
+                    <div class="form-group">
+                        <label>Street Address</label>
+                        <input type="text" id="modal-street" required placeholder="e.g., Ring Road">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" id="close-modal-btn">Cancel</button>
+                        <button type="submit" class="save-btn">Save Address</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer id="global-footer"></footer>
+    </div>
+</body>
+</html>

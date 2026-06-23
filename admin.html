@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Marketplace Deck — BuyIt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/admin.css">
+    <script src="./js/main.js" defer></script>
+    <script src="./js/admin.js" defer></script>
+</head>
+<body>
+    <div class="design">
+        <header class="site-header" id="global-header"></header>
+        <div class="nav-overlay" id="nav-overlay"></div>
+
+        <main class="admin-container">
+            <aside class="admin-sidebar">
+                <div class="admin-title-card">
+                    <i class="fa-solid fa-sliders-span admin-icon"></i>
+                    <h2>Admin Console</h2>
+                    <p>Marketplace Overview</p>
+                </div>
+                <nav class="admin-menu">
+                    <button class="admin-menu-item active" id="tab-analytics">
+                        <i class="fa-solid fa-chart-pie"></i> Analytics Reports
+                    </button>
+                    <button class="admin-menu-item" id="tab-products">
+                        <i class="fa-solid fa-boxes-stacked"></i> Inventory Registry
+                    </button>
+                    <button class="admin-menu-item" id="tab-orders">
+                        <i class="fa-solid fa-receipt"></i> Global Orders
+                    </button>
+                </nav>
+            </aside>
+
+            <section class="admin-content">
+                <div class="admin-stats-strip">
+                    <div class="astat-card">
+                        <span class="astat-num" id="adm-total-sales">₦0</span>
+                        <span class="astat-label">Gross Revenue</span>
+                    </div>
+                    <div class="astat-card">
+                        <span class="astat-num" id="adm-total-orders">0</span>
+                        <span class="astat-label">Total Transactions</span>
+                    </div>
+                    <div class="astat-card">
+                        <span class="astat-num" id="adm-total-products">0</span>
+                        <span class="astat-label">Registered Skus</span>
+                    </div>
+                </div>
+
+                <div id="admin-main-pane">
+                    </div>
+            </section>
+        </main>
+
+        <div class="admin-modal" id="product-modal">
+            <div class="amodal-card">
+                <h3 id="modal-action-title">Add New Product SKU</h3>
+                <form id="product-modal-form">
+                    <input type="hidden" id="edit-product-id">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="prod-name" required placeholder="e.g., Organic Bananas Pack">
+                    </div>
+                    <div class="form-group">
+                        <label>Price (Naira Number Value Only)</label>
+                        <input type="number" id="prod-price" required placeholder="e.g., 2500">
+                    </div>
+                    <div class="form-group">
+                        <label>Image Source URL Link</label>
+                        <input type="url" id="prod-img" required placeholder="https://images.unsplash.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Marketplace File Page Category Location</label>
+                        <select id="prod-category">
+                            <option value="fresh">Fresh Produce</option>
+                            <option value="meat_seafood">Meat & Seafood</option>
+                            <option value="dairy_eggs">Dairy & Eggs</option>
+                            <option value="bakery">Bakery</option>
+                            <option value="beverages">Beverages</option>
+                            <option value="electronics">Electronics & Gadgets</option>
+                        </select>
+                    </div>
+                    <div class="amodal-actions">
+                        <button type="button" class="acancel-btn" id="close-pmodal-btn">Dismiss</button>
+                        <button type="submit" class="asave-btn">Commit Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer id="global-footer"></footer>
+    </div>
+</body>
+</html>

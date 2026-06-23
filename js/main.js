@@ -10,8 +10,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 2. RUN FUNCTIONS TO INITIALIZE RESPONSIVE INTERFACES & CART ENGINE
     initResponsiveComponents();
-    initCartEngine();
-    window.syncHeaderAuthUI(); // Sync user auth state in header on page load
+    if (typeof initCartEngine === "function") {
+        initCartEngine();
+    }
+    if (typeof window.syncHeaderAuthUI === "function") {
+        window.syncHeaderAuthUI(); // Sync user auth state in header on page load
+    }
 });
 
 // Clean Modular Component Injection Engine
@@ -77,11 +81,17 @@ function initResponsiveComponents() {
     if (searchForm && searchInput) {
         let products = [];
 
-        // Load your data async wrapper
+        // Load your baseline data AND custom admin database items simultaneously
         (async () => {
             try {
                 const response = await fetch("./data/products.json");
-                products = await response.json();
+                const baseProducts = await response.json();
+                
+                // Read items created in your hidden dashboard panel matrix
+                const customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
+                
+                // Unify into a single system database search array
+                products = [...baseProducts, ...customProducts];
             } catch (error) {
                 console.error("Failed to load products database:", error);
             }
@@ -127,15 +137,18 @@ function initResponsiveComponents() {
 
             searchBox.innerHTML = matches
                 .slice(0, 8)
-                .map(product => `
-                    <a class="search-item" href="product.html?id=${product.id}">
-                        <img src="${product.image}">
-                        <div>
-                            <strong>${product.name}</strong>
-                            <span>${product.price}</span>
-                        </div>
-                    </a>
-                `).join("");
+                .map(product => {
+                    const parsedPrice = typeof product.price === "number" ? "₦" + product.price.toLocaleString() : product.price;
+                    return `
+                        <a class="search-item" href="product.html?id=${product.id}">
+                            <img src="${product.image}">
+                            <div>
+                                <strong>${product.name}</strong>
+                                <span>${parsedPrice}</span>
+                            </div>
+                        </a>
+                    `;
+                }).join("");
 
             searchBox.style.display = "block";
         }
@@ -154,8 +167,26 @@ function initResponsiveComponents() {
             }
         });
     }
-}
 
+    // ===================================================
+    // SECRET ADMIN EASTER EGG INJECTOR (SAFE PLACEMENT)
+    // ===================================================
+    const logoElement = document.querySelector(".logo");
+    if (logoElement) {
+        logoElement.style.cursor = "pointer"; // Makes it subtly clickable for you
+        
+        logoElement.addEventListener("dblclick", () => {
+            const activeUser = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+            
+            if (activeUser && activeUser.email === "admin@fevicstore.com") {
+                alert("Admin signature recognized. Opening control deck...");
+                window.location.href = "admin.html";
+            } else {
+                console.log("BuyIt brand signature verified.");
+            }
+        });
+    }
+}
 // ===================================================
 // CORE SHOPPING CART LOGIC ENGINE (NEW UPGRADE)
 // ===================================================
