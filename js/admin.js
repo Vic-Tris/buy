@@ -1,24 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-   // ==========================================
-// 1. EXTRA SECURE GATEKEEPER LOCK
-// ==========================================
+    // ==========================================
+    // 1. EXTRA SECURE GATEKEEPER LOCK
+    // ==========================================
+    const admin = JSON.parse(localStorage.getItem("BUYIT_ADMIN"));
 
-const admin =
-JSON.parse(localStorage.getItem("BUYIT_ADMIN"));
+    if (!admin || admin.role !== "admin") {
+        window.location.href = "login.html";
+        return;
+    }
 
-if (
-    !admin ||
-    admin.role !== "admin"
-) {
-
-    window.location.href = "login.html";
-
-    return;
-
-}
-
-console.log("Access Granted. Activating Admin Console Workspace...");
     console.log("Access Granted. Activating Admin Console Workspace...");
 
     const adminLogoutBtn = document.getElementById("admin-logout");
@@ -52,6 +43,7 @@ console.log("Access Granted. Activating Admin Console Workspace...");
     const btnAnalytics = document.getElementById("tab-analytics");
     const btnProducts = document.getElementById("tab-products");
     const btnOrders = document.getElementById("tab-orders");
+    const btnSettings = document.getElementById("tab-settings"); // Added for settings navigation
 
     // ==========================================
     // 3. METRICS & COUNTERS AGGREGATION UTILITIES
@@ -173,6 +165,130 @@ console.log("Access Granted. Activating Admin Console Workspace...");
         }
     }
 
+    // NEW: SETTINGS VIEW INTERFACE CONTROLLER
+    function showSettingsTab() {
+        setActiveTabButton(btnSettings);
+
+        if (mainPane) {
+            mainPane.innerHTML = `
+                <div class="panel-action-bar"><h3>System Settings & Multi-Admin Access</h3></div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 10px;">
+                    
+                    <div style="background: white; padding: 20px; border: 1px solid var(--color-border); border-radius: 12px;">
+                        <h4 style="margin-top: 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                            <i class="fa-solid fa-user-gear"></i> Profile Settings
+                        </h4>
+                        <form id="admin-profile-form">
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; display:block; margin-bottom:4px;">Display Name</label>
+                                <input type="text" id="admin-display-name" required style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; display:block; margin-bottom:4px;">Update Password</label>
+                                <input type="password" id="admin-new-password" placeholder="Enter new password token" required style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            </div>
+                            <button type="submit" style="background: #1e293b; color: #22c55e; border: 1px solid #22c55e; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">
+                                Save Profile Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border: 1px solid var(--color-border); border-radius: 12px;">
+                        <h4 style="margin-top: 0; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
+                            <i class="fa-solid fa-user-plus"></i> Provision New Admin Account
+                        </h4>
+                        <form id="create-admin-form">
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; display:block; margin-bottom:4px;">Full Name</label>
+                                <input type="text" id="new-admin-name" placeholder="e.g., Jane Doe" required style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; display:block; margin-bottom:4px;">Email Address</label>
+                                <input type="email" id="new-admin-email" placeholder="manager@fevicstore.com" required style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; display:block; margin-bottom:4px;">Assign Access Password</label>
+                                <input type="password" id="new-admin-password" placeholder="Minimum 4 characters" required style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px;">
+                            </div>
+                            <button type="submit" style="background: #22c55e; color: #1e293b; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">
+                                Create Admin Credentials
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            `;
+
+            // Prefill with active logged-in operator details
+            const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+            if (currentSession && document.getElementById("admin-display-name")) {
+                document.getElementById("admin-display-name").value = currentSession.name || "Administrator";
+            }
+
+            // Wire up the dynamic settings form event handlers
+            wireSettingsForms();
+        }
+    }
+
+    // Helper to handle settings form submissions dynamically
+    function wireSettingsForms() {
+        const profileForm = document.getElementById("admin-profile-form");
+        const createForm = document.getElementById("create-admin-form");
+
+        if (profileForm) {
+            profileForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const updatedName = document.getElementById("admin-display-name").value.trim();
+                const newPassword = document.getElementById("admin-new-password").value;
+                const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+
+                let adminRegistry = JSON.parse(localStorage.getItem("BUYIT_ADMINS_REGISTRY")) || [
+                    { email: "admin@fevicstore.com", name: "Administrator", password: "admin123" }
+                ];
+
+                const matchIndex = adminRegistry.findIndex(a => a.email.toLowerCase() === currentSession.email.toLowerCase());
+                const updatedAccountObj = { email: currentSession.email, name: updatedName, password: newPassword, role: "admin" };
+
+                if (matchIndex !== -1) {
+                    adminRegistry[matchIndex] = updatedAccountObj;
+                } else {
+                    adminRegistry.push(updatedAccountObj);
+                }
+
+                localStorage.setItem("BUYIT_ADMINS_REGISTRY", JSON.stringify(adminRegistry));
+                localStorage.setItem("BUYIT_CURRENT_USER", JSON.stringify(updatedAccountObj));
+                localStorage.setItem("BUYIT_ADMIN", JSON.stringify(updatedAccountObj));
+
+                alert("Profile credentials updated successfully.");
+                showSettingsTab();
+            });
+        }
+
+        if (createForm) {
+            createForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const newName = document.getElementById("new-admin-name").value.trim();
+                const newEmail = document.getElementById("new-admin-email").value.trim().toLowerCase();
+                const newPassword = document.getElementById("new-admin-password").value;
+
+                let adminRegistry = JSON.parse(localStorage.getItem("BUYIT_ADMINS_REGISTRY")) || [
+                    { email: "admin@fevicstore.com", name: "Administrator", password: "admin123" }
+                ];
+
+                if (adminRegistry.some(a => a.email.toLowerCase() === newEmail)) {
+                    alert("An administrator account is already associated with this email.");
+                    return;
+                }
+
+                adminRegistry.push({ email: newEmail, name: newName, password: newPassword, role: "admin" });
+                localStorage.setItem("BUYIT_ADMINS_REGISTRY", JSON.stringify(adminRegistry));
+                
+                alert(`Account configured successfully for ${newName}!`);
+                createForm.reset();
+            });
+        }
+    }
+
     // ==========================================
     // 5. BUSINESS LOGIC STORAGE WRITERS
     // ==========================================
@@ -180,22 +296,57 @@ console.log("Access Granted. Activating Admin Console Workspace...");
         pForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
-            const newSku = {
-                id: "CUSTOM-" + Math.floor(1000 + Math.random() * 9000),
-                name: document.getElementById("prod-name").value.trim(),
-                price: parseFloat(document.getElementById("prod-price").value),
-                image: document.getElementById("prod-img").value.trim(),
-                category: document.getElementById("prod-category").value
+            // 🔐 CRITICAL GATEWAY: Check authentication passkey challenge input field
+            const authInput = document.getElementById("prod-admin-auth").value;
+            const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+            
+            let adminRegistry = JSON.parse(localStorage.getItem("BUYIT_ADMINS_REGISTRY")) || [
+                { email: "admin@fevicstore.com", name: "Administrator", password: "admin123" }
+            ];
+
+            const activeAdminRecord = adminRegistry.find(a => a.email.toLowerCase() === currentSession.email.toLowerCase());
+            const realPassword = activeAdminRecord ? activeAdminRecord.password : "admin123";
+
+            if (authInput !== realPassword) {
+                alert("Security Authorization Failed: Invalid admin confirmation password.");
+                return;
+            }
+
+            const name = document.getElementById("prod-name").value.trim();
+            const price = parseFloat(document.getElementById("prod-price").value);
+            const category = document.getElementById("prod-category").value;
+            
+            const urlInput = document.getElementById("prod-img").value.trim();
+            const fileInput = document.getElementById("prod-img-file");
+
+            const saveProductSKU = (finalImageSource) => {
+                const newSku = {
+                    id: "CUSTOM-" + Math.floor(1000 + Math.random() * 9000),
+                    name: name,
+                    price: price,
+                    image: finalImageSource || "./images/default-placeholder.jpg",
+                    category: category
+                };
+
+                customProducts.push(newSku);
+                localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
+                
+                if (pModal) pModal.classList.remove("open");
+                pForm.reset();
+                
+                calculateSystemMetrics();
+                showProductsTab();
             };
 
-            customProducts.push(newSku);
-            localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
-            
-            if (pModal) pModal.classList.remove("open");
-            pForm.reset();
-            
-            calculateSystemMetrics();
-            showProductsTab();
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    saveProductSKU(event.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveProductSKU(urlInput);
+            }
         });
     }
 
@@ -213,7 +364,7 @@ console.log("Access Granted. Activating Admin Console Workspace...");
     };
 
     function setActiveTabButton(targetBtn) {
-        [btnAnalytics, btnProducts, btnOrders].forEach(btn => btn?.classList.remove("active"));
+        [btnAnalytics, btnProducts, btnOrders, btnSettings].forEach(btn => btn?.classList.remove("active"));
         if (targetBtn) targetBtn.classList.add("active");
     }
 
@@ -226,6 +377,7 @@ console.log("Access Granted. Activating Admin Console Workspace...");
     if (btnAnalytics) btnAnalytics.onclick = showAnalyticsTab;
     if (btnProducts) btnProducts.onclick = showProductsTab;
     if (btnOrders) btnOrders.onclick = showOrdersTab;
+    if (btnSettings) btnSettings.onclick = showSettingsTab; // Connect settings layout
 
     // Initialization routine runs
     calculateSystemMetrics();

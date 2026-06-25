@@ -26,23 +26,25 @@
 🟢 Online
 </span>
                 </div>
-                <nav class="admin-menu">
-                    <button class="admin-menu-item active" id="tab-analytics">
-                        <i class="fa-solid fa-chart-pie"></i> Analytics Reports
-                    </button>
-                    <button class="admin-menu-item" id="tab-products">
-                        <i class="fa-solid fa-boxes-stacked"></i> Inventory Registry
-                    </button>
-                    <button class="admin-menu-item" id="tab-orders">
-                        <i class="fa-solid fa-receipt"></i> Global Orders
-                    </button>
+              <nav class="admin-menu">
+    <button class="admin-menu-item active" id="tab-analytics">
+        <i class="fa-solid fa-chart-pie"></i> Analytics Reports
+    </button>
+    <button class="admin-menu-item" id="tab-products">
+        <i class="fa-solid fa-boxes-stacked"></i> Inventory Registry
+    </button>
+    <button class="admin-menu-item" id="tab-orders">
+        <i class="fa-solid fa-receipt"></i> Global Orders
+    </button>
+    
+    <button class="admin-menu-item" id="tab-settings">
+        <i class="fa-solid fa-user-gear"></i> Settings & Access
+    </button>
 
-                    <button class="admin-menu-item logout-admin-btn"
-                    id="admin-logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </button>
-                </nav>
+    <button class="admin-menu-item logout-admin-btn" id="admin-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </button>
+</nav> 
             </aside>
 
             <section class="admin-content">
@@ -66,7 +68,7 @@
             </section>
         </main>
 
-        <div class="admin-modal" id="product-modal">
+      <div class="admin-modal" id="product-modal">
             <div class="amodal-card">
                 <h3 id="modal-action-title">Add New Product SKU</h3>
                 <form id="product-modal-form">
@@ -79,10 +81,14 @@
                         <label>Price (Naira Number Value Only)</label>
                         <input type="number" id="prod-price" required placeholder="e.g., 2500">
                     </div>
+                    
                     <div class="form-group">
-                        <label>Image Source URL Link</label>
-                        <input type="url" id="prod-img" required placeholder="https://images.unsplash.com/...">
+                        <label>Product Image Source</label>
+                        <input type="file" id="prod-img-file" accept="image/*" style="margin-bottom: 8px; width: 100%;">
+                        <div style="text-align: center; margin: 4px 0; color: #64748b; font-size: 0.8rem; font-weight: 600;">— OR —</div>
+                        <input type="url" id="prod-img" placeholder="https://images.unsplash.com/... (Optional if file uploaded)">
                     </div>
+
                     <div class="form-group">
                         <label>Target Marketplace File Page Category Location</label>
                         <select id="prod-category">
@@ -94,13 +100,19 @@
                             <option value="electronics">Electronics & Gadgets</option>
                         </select>
                     </div>
+
+                    <div class="form-group" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0;">
+                        <label style="color: #ef4444; font-weight: bold;"><i class="fa-solid fa-lock"></i> Confirm Admin Password</label>
+                        <input type="password" id="prod-admin-auth" required placeholder="Enter your login password to authorize">
+                    </div>
+
                     <div class="amodal-actions">
                         <button type="button" class="acancel-btn" id="close-pmodal-btn">Dismiss</button>
                         <button type="submit" class="asave-btn">Commit Changes</button>
                     </div>
                 </form>
             </div>
-        </div>
+        </div> 
 
         <footer id="global-footer"></footer>
     </div>

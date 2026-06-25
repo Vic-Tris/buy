@@ -23,18 +23,43 @@
         <h1 class="auth-title">Welcome Back</h1>
         <p class="auth-subtitle">Log in to your account</p>
         
-        <form  id="login-form">
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-          </div>
-          
-          <button type="submit" class="auth-btn">Log In</button>
+        <form id="login-form">
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    </div>
+    <div class="form-group" style="position: relative;">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <div style="text-align: right; margin-top: 5px;">
+            <a href="#" id="forgot-pw-trigger" style="font-size: 0.85rem; color: #ef4444; text-decoration: none;">Forgot Password?</a>
+        </div>
+    </div>
+    
+    <button type="submit" class="auth-btn">Log In</button>
+</form>
+
+<div id="forgot-pw-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; backgroundColor: rgba(0,0,0,0.5); z-index: 99999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+        <h3 style="margin-top: 0; color: #1e293b;">Reset Password</h3>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Enter your registered user email address and provide your new desired password access token keys.</p>
+        
+        <form id="forgot-pw-form">
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-size: 0.85rem; font-weight: 600;">Email Address</label>
+                <input type="email" id="reset-email" placeholder="name@example.com" required style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="font-size: 0.85rem; font-weight: 600;">New Password</label>
+                <input type="password" id="reset-new-password" placeholder="Minimum 4 characters" required style="width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box;">
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" id="close-reset-modal" style="background: #e2e8f0; color: #334155; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Cancel</button>
+                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Save Password</button>
+            </div>
         </form>
+    </div>
+</div>
         
         <p id="login-error-msg" style="color: #dc2626; font-size: 0.9rem; margin-top: 15px; text-align: center; display: none;"></p>
 
