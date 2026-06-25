@@ -1,20 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // ==========================================
-    // 1. EXTRA SECURE GATEKEEPER LOCK
-    // ==========================================
-    const gatekeeperUser = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
-    
-    // 🔏 MUST MATCH YOUR SPECIFIED SIGNATURE EXACTLY:
-    const MASTER_ADMIN_EMAIL = "admin@fevicstore.com"; 
+   // ==========================================
+// 1. EXTRA SECURE GATEKEEPER LOCK
+// ==========================================
 
-    if (!gatekeeperUser || gatekeeperUser.email !== MASTER_ADMIN_EMAIL) {
-        // Silent boot if unauthorized or missing session
-        window.location.href = "index.html"; 
-        return;
-    }
+const admin =
+JSON.parse(localStorage.getItem("BUYIT_ADMIN"));
 
+if (
+    !admin ||
+    admin.role !== "admin"
+) {
+
+    window.location.href = "login.html";
+
+    return;
+
+}
+
+console.log("Access Granted. Activating Admin Console Workspace...");
     console.log("Access Granted. Activating Admin Console Workspace...");
+
+    const adminLogoutBtn = document.getElementById("admin-logout");
+    if (adminLogoutBtn) {
+        adminLogoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("BUYIT_CURRENT_USER");
+            localStorage.removeItem("BUYIT_ADMIN");
+            alert("Logged out successfully.");
+            window.location.href = "login.html";
+        });
+    }
 
     // ==========================================
     // 2. DATA INITIALIZATION & BOOTSTRAPPER 

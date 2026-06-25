@@ -3,6 +3,7 @@
         "iamgautamsuthar.offline-ai",
         "github.copilot-chat",
         "locofy.locofy-vs-code-extension",
-        "rvest.vs-code-prettier-eslint"
+        "rvest.vs-code-prettier-eslint",
+        "redhat.vscode-yaml"
     ]
 }

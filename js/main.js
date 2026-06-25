@@ -1,23 +1,38 @@
-// Global Cart Engine State Container
 let cart = JSON.parse(localStorage.getItem("BUYIT_CART")) || [];
-let activeDiscount = 0; // Tracks live percentage off deductions
+let activeDiscount = 0;
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-    // 1. FETCH & INJECT GLOBAL LAYOUT COMPONENTS FIRST
+// 1. FETCH & INJECT GLOBAL LAYOUT COMPONENTS FIRST
+try {
     await includeComponent("global-header", "./components/header.html");
     await includeComponent("global-footer", "./components/footer.html");
+} catch (err) {
+    console.warn("Layout components loading optimization note:", err);
+}
 
-    // 2. RUN FUNCTIONS TO INITIALIZE RESPONSIVE INTERFACES & CART ENGINE
-    initResponsiveComponents();
-    if (typeof initCartEngine === "function") {
-        initCartEngine();
-    }
-    if (typeof window.syncHeaderAuthUI === "function") {
-        window.syncHeaderAuthUI(); // Sync user auth state in header on page load
-    }
+// 2. INITIALIZE MENUS, SEARCH, CART, ETC.
+initResponsiveComponents();
+
+if (typeof initCartEngine === "function") {
+    initCartEngine();
+}
+
+// 3. SYNC LOGIN / ADMIN UI AFTER HEADER EXISTS
+if (typeof window.syncHeaderAuthUI === "function") {
+    window.syncHeaderAuthUI();
+}
+
+// 4. DEBUG USER SESSION
+console.log(
+    "Current User:",
+    JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"))
+);
+
+// 5. NOTIFY OTHER MODULES THAT LAYOUT IS READY
+document.dispatchEvent(
+    new Event("LayoutComponentsLoaded")
+);
 });
-
 // Clean Modular Component Injection Engine
 async function includeComponent(targetId, filePath) {
     const element = document.getElementById(targetId);
@@ -46,36 +61,53 @@ function initResponsiveComponents() {
     const searchPanel = document.querySelector(".srch");
     const searchTrigger = document.getElementById("mobile-search-trigger");
 
-    // ================= AUTOMATED ACTIVE PAGE LINK HIGHLIGHTS =================
-    const currentUrl = window.location.pathname.split("/").pop() || "index.html";
-    const navLinks = document.querySelectorAll(".main-nav a");
+// ================= AUTOMATED ACTIVE PAGE LINK HIGHLIGHTS =================
+const currentUrl = window.location.pathname.split("/").pop() || "index.html";
+const navLinks = document.querySelectorAll(".main-nav a");
 
-    navLinks.forEach(link => {
-        if (link.getAttribute("href") === currentUrl) {
-            link.classList.add("active");
-        } else {
-            link.classList.remove("active");
-        }
-    });
+navLinks.forEach(link => {
+    const href = link.getAttribute("href");
+    
+    // 🛑 CRITICAL SAFE GUARD: Skip JavaScript button bindings, null tags, and dummy references
+    if (!href || href === "#") return;
+
+    if (href === currentUrl) {
+        link.classList.add("active");
+    } else {
+        link.classList.remove("active");
+    }
+});
 
     // ================= MOBILE NAVIGATION DRAWER TOGGLES =================
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener("click", () => {
-            mainNav.classList.toggle("open"); // Toggles menu panel slider container
-            if (navOverlay) {
-                navOverlay.classList.toggle("visible");
-            }
-        });
-    }
+   if (menuToggle && mainNav) {
 
+    menuToggle.addEventListener("click", () => {
+
+        menuToggle.classList.toggle("active");
+        mainNav.classList.toggle("open");
+
+        if (navOverlay) {
+            navOverlay.classList.toggle("visible");
+        }
+
+    });
+
+}
     if (navOverlay) {
-        navOverlay.addEventListener("click", () => {
-            if (menuToggle) menuToggle.classList.remove("active");
-            if (mainNav) mainNav.classList.remove("open");
-            navOverlay.classList.remove("visible");
-            document.getElementById("cart-drawer")?.classList.remove("open");
-        });
-    }
+
+    navOverlay.addEventListener("click", () => {
+
+        menuToggle?.classList.remove("active");
+        mainNav?.classList.remove("open");
+        navOverlay.classList.remove("visible");
+
+        document
+            .getElementById("cart-drawer")
+            ?.classList.remove("open");
+
+    });
+
+}
 
     // ================= RESPONSIVE SEARCH AND SUGGESTIONS =================
     if (searchForm && searchInput) {
@@ -353,28 +385,53 @@ window.updateCartDOM = function() {
 // USER AUTHENTICATION STATE SYNC (NEW UPGRADE)
 // ===================================================
 window.syncHeaderAuthUI = function() {
-    const authContainer = document.getElementById("nav-auth-container");
+    const authContainer = document.getElementById("auth-link-container");
+    const adminContainer = document.getElementById("admin-link-container");
     if (!authContainer) return;
 
-    // Check if user session data exists in localStorage state
-    const loggedInUser = localStorage.getItem("BUYIT_USER");
+    const currentUser = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+    const activeAdmin = JSON.parse(localStorage.getItem("BUYIT_ADMIN"));
+    const loggedInUser = currentUser || activeAdmin;
+    const isAdmin = Boolean(
+        activeAdmin &&
+        activeAdmin.email === "admin@fevicstore.com" &&
+        activeAdmin.role === "admin"
+    );
+
+    if (adminContainer) {
+        if (isAdmin) {
+            adminContainer.style.display = "block";
+            adminContainer.innerHTML = `
+                <a href="admin.html">
+                    <i class="fa-solid fa-unlock-keyhole"></i> Admin Panel
+                </a>
+            `;
+        } else {
+            adminContainer.style.display = "none";
+            adminContainer.innerHTML = "";
+        }
+    }
 
     if (loggedInUser) {
-        // If logged in, turn the link into a Log Out button
         authContainer.innerHTML = `
-            <a href="#" id="logout-trigger" style="color: var(--color-primary);">Log Out</a>
+            <a href="#" id="logout-trigger" style="color: var(--color-primary);">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
         `;
 
-        // Bind the active sign-out event process handler
         document.getElementById("logout-trigger")?.addEventListener("click", (e) => {
             e.preventDefault();
-            localStorage.removeItem("BUYIT_USER"); // Purge auth details data
-            alert("You have been securely logged out.");
-            window.location.reload(); // Refresh viewport layout states
+            localStorage.removeItem("BUYIT_CURRENT_USER");
+            localStorage.removeItem("BUYIT_ADMIN");
+            alert("Logged out successfully.");
+            window.location.href = "login.html";
         });
     } else {
-        // If not logged in, maintain standard link framework
-        authContainer.innerHTML = `<a href="login.html">Log In</a>`;
+        authContainer.innerHTML = `
+            <a href="login.html">
+                <i class="fa-solid fa-user"></i> Log In
+            </a>
+        `;
     }
 };
 

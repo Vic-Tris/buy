@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/admin.css">
-    <script src="./js/main.js" defer></script>
-    <script src="./js/admin.js" defer></script>
+    <script src="./js/main.js?v=2" defer></script>
+    <script src="./js/admin.js?v=2" defer></script>
 </head>
 <body>
     <div class="design">
@@ -18,9 +18,13 @@
         <main class="admin-container">
             <aside class="admin-sidebar">
                 <div class="admin-title-card">
+                    <div id="admin-profile-card"></div>
                     <i class="fa-solid fa-sliders-span admin-icon"></i>
                     <h2>Admin Console</h2>
                     <p>Marketplace Overview</p>
+                     <span id="admin-status">
+🟢 Online
+</span>
                 </div>
                 <nav class="admin-menu">
                     <button class="admin-menu-item active" id="tab-analytics">
@@ -32,6 +36,12 @@
                     <button class="admin-menu-item" id="tab-orders">
                         <i class="fa-solid fa-receipt"></i> Global Orders
                     </button>
+
+                    <button class="admin-menu-item logout-admin-btn"
+                    id="admin-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
                 </nav>
             </aside>
 
