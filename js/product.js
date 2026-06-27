@@ -3,20 +3,28 @@ const productId = params.get("id");
 
 console.log("ID from URL:", productId);
 
-fetch("./data/products.json")
-  .then(response => response.json())
-  .then(baseProducts => {
-    
-    // ===================================================
-    // MERGE BASE PRODUCTS WITH ADMIN CUSTOM PRODUCTS
-    // ===================================================
+// ===================================================
+// DYNAMIC INVENTORY FETCH WITH REMOVAL CHECK
+// ===================================================
+const loadUnifiedProductCatalog = (jsonBaseProducts) => {
+    // 1. If local storage hasn't initialized base products, do it once using the JSON payload
+    let storedBaseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
+    if (storedBaseProducts.length === 0) {
+        storedBaseProducts = jsonBaseProducts;
+        localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(storedBaseProducts));
+    }
+
+    // 2. Fetch custom products layer
     const customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
-    const allProducts = [...baseProducts, ...customProducts];
+    
+    // 3. Merge them together (Respecting both deletions and additions)
+    const allProducts = [...storedBaseProducts, ...customProducts];
 
     // Find the product match from our unified pool
-    const product = allProducts.find(p => p.id === productId);
+    // Ensure accurate evaluation by comparing string IDs
+    const product = allProducts.find(p => p.id.toString() === productId?.toString());
 
-    // 1. SAFETY FILTER: If product data is missing, handle the error gracefully
+    // 4. SAFETY FILTER: If product data is missing or removed by admin, handle gracefully
     if (!product) {
       const pageEl = document.querySelector(".product_page");
       if (pageEl) {
@@ -27,7 +35,7 @@ fetch("./data/products.json")
 
     console.log("Product found:", product);
 
-    // 2. INJECT ALL CONTENT SECURELY INTO DOM NODES
+    // 5. INJECT ALL CONTENT SECURELY INTO DOM NODES
     document.getElementById("product-name").textContent = product.name;
     document.getElementById("product-price").textContent = typeof product.price === "number" ? "₦" + product.price.toLocaleString() : product.price;
     document.getElementById("product-image").src = product.image;
@@ -64,7 +72,7 @@ fetch("./data/products.json")
         window.updateWishlistUI();
     }
 
-    // 3. WIRE UP ACTIVE INTERACTIVE BUTTON ACTIONS
+    // 6. WIRE UP ACTIVE INTERACTIVE BUTTON ACTIONS
     const addToCartBtn = document.getElementById("add-to-cart-btn");
     const buyNowBtn = document.getElementById("buy-now-btn");
 
@@ -87,7 +95,16 @@ fetch("./data/products.json")
             window.location.href = "cart.html";
         };
     }
+};
+
+// Initiate page loading parameters
+fetch("./data/products.json")
+  .then(response => response.json())
+  .then(baseProducts => {
+      loadUnifiedProductCatalog(baseProducts);
   })
   .catch(error => {
     console.error("Error loading specific product template parameters:", error);
+    // Error protection fallback: Try loading from local storage even if the network json file request encounters errors
+    loadUnifiedProductCatalog([]);
   });

@@ -80,13 +80,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function showProductsTab() {
+function showProductsTab() {
         setActiveTabButton(btnProducts);
+        
+        // 📦 UNIFY ALL INVENTORY LAYERS (Base Items + Custom Dynamic SKUs)
+        // Fetch base products from global memory if you already stored them, else let's reference them dynamically
+        let baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
+        
+        // Fallback initialization if your base products array hasn't been cached into local storage yet
+        if (baseProducts.length === 0 && window.allProductsData) { 
+            baseProducts = window.allProductsData;
+            localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(baseProducts));
+        }
+
+        // Combine both sources into a unified registry pipeline
+        const totalInventory = [...baseProducts, ...customProducts];
         
         if (mainPane) {
             mainPane.innerHTML = `
                 <div class="panel-action-bar">
-                    <h3>Custom Inventory SKUs</h3>
+                    <h3>Global Catalog & Inventory Stock</h3>
                     <button class="action-trigger-btn" id="add-new-sku-trigger"><i class="fa-solid fa-plus"></i> Inject SKU</button>
                 </div>
                 <table class="admin-table">
@@ -100,18 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         </tr>
                     </thead>
                     <tbody>
-                        ${customProducts.map(p => `
+                        ${totalInventory.map(p => `
                             <tr>
-                                <td><img src="${p.image}" class="thumb-inline"></td>
-                                <td><strong>${p.name}</strong></td>
+                                <td><img src="${p.image}" class="thumb-inline" onerror="this.src='./images/default-placeholder.jpg'"></td>
+                                <td><strong>${p.name}</strong> ${p.id.toString().includes('CUSTOM') ? '<span style="font-size:0.7rem; background:#dcfce7; color:#166534; padding:2px 4px; border-radius:4px; margin-left:5px;">Custom</span>' : '<span style="font-size:0.7rem; background:#f1f5f9; color:#475569; padding:2px 4px; border-radius:4px; margin-left:5px;">Base</span>'}</td>
                                 <td><span style="background:#e2e8f0; padding:3px 8px; border-radius:6px; font-size:0.75rem;">${p.category}</span></td>
                                 <td>₦${parseFloat(p.price).toLocaleString()}</td>
                                 <td>
-                                    <button onclick="deleteProductSKU('${p.id}')" class="row-action-btn btn-del">Delete</button>
+                                    <button onclick="deleteProductSKU('${p.id}')" class="row-action-btn btn-del"><i class="fa-solid fa-trash-can"></i> Remove Stock</button>
                                 </td>
                             </tr>
                         `).join("")}
-                        ${customProducts.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:gray; padding:30px;">No custom dynamic products added to memory layers yet.</td></tr>` : ""}
+                        ${totalInventory.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:gray; padding:30px;">Stock registries empty.</td></tr>` : ""}
                     </tbody>
                 </table>
             `;
@@ -124,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         }
     }
-
     function showOrdersTab() {
         setActiveTabButton(btnOrders);
 
@@ -350,13 +362,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    window.deleteProductSKU = function(id) {
-        customProducts = customProducts.filter(p => p.id !== id);
-        localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
-        calculateSystemMetrics();
+   window.deleteProductSKU = function(id) {
+        if (!confirm("Are you sure you want to permanently strip this product SKU out of your active display shelves?")) return;
+
+        // 1. Check inside Custom Inventory layer
+        let customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
+        const initialCustomLength = customProducts.length;
+        customProducts = customProducts.filter(p => p.id.toString() !== id.toString());
+        
+        if (customProducts.length !== initialCustomLength) {
+            localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
+        } else {
+            // 2. If not found in custom list, target Base Products cache database layer
+            let baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
+            if (baseProducts.length === 0 && window.allProductsData) {
+                baseProducts = window.allProductsData;
+            }
+            baseProducts = baseProducts.filter(p => p.id.toString() !== id.toString());
+            localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(baseProducts));
+        }
+
+        alert("Inventory Registry updated successfully.");
+        
+        // Recalculate metrics counter definitions
+        let baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
+        const prodDisplay = document.getElementById("adm-total-products");
+        if (prodDisplay) prodDisplay.textContent = baseProducts.length + customProducts.length;
+
+        // Refresh panel display state natively
         showProductsTab();
     };
-
     window.updateOrderStatus = function(orderIndex, newStatus) {
         historicalOrders[orderIndex].status = newStatus;
         localStorage.setItem("BUYIT_ORDERS", JSON.stringify(historicalOrders));
