@@ -102,6 +102,16 @@ function showProductsTab() {
                     <h3>Global Catalog & Inventory Stock</h3>
                     <button class="action-trigger-btn" id="add-new-sku-trigger"><i class="fa-solid fa-plus"></i> Inject SKU</button>
                 </div>
+                 <div class="header-actions">
+      <div class="srch">
+         <form id="search-form">
+          <input type="search" id="search" placeholder="Search products..." autocomplete="off">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      
+      <i class="fa-solid fa-magnifying-glass search-trigger" id="mobile-search-trigger" style="cursor: pointer; font-size: 1.2rem;"></i>
+
                 <table class="admin-table">
                     <thead>
                         <tr>
