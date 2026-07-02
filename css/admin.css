@@ -48,6 +48,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    width: 100%;
+    min-width: 0;
 }
 .admin-menu-item {
     display: flex;
@@ -63,6 +65,10 @@
     text-align: left;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 .admin-menu-item:hover, 
 .admin-menu-item.active {
@@ -436,6 +442,23 @@ select {
         min-height: 65px;
         flex-wrap: wrap;
         gap: 12px;
+    }
+    .admin-sidebar {
+        width: 100%;
+        min-width: 0;
+    }
+    .admin-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px;
+    }
+    .admin-menu-item {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+        min-width: 0;
+        padding: 10px 12px;
+        font-size: 0.78rem;
     }
     .topbar-right {
         width: 100%;
