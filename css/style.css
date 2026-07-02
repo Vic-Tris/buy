@@ -1763,27 +1763,30 @@ footer h3 {
 
   .container {
     display: flex !important;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 0 var(--space-md);
     align-items: center;
+    gap: var(--space-sm);
     overflow: visible !important;
   }
 
   .logo {
     order: 1;
-    flex: 1;
+    flex: 0 0 auto;
+    min-width: 0;
   }
 
   .header-actions {
     order: 2;
     width: auto;
-    margin-left: 0;
+    margin-left: auto;
     padding: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: var(--space-sm);
     z-index: 10001;
+    flex-shrink: 0;
   }
 
   .menu-toggle {
@@ -1791,33 +1794,29 @@ footer h3 {
     align-items: center;
     justify-content: center;
     order: 3;
-    margin-left: var(--space-xs);
+    margin-left: 0;
     z-index: 10002;
     cursor: pointer;
+    flex-shrink: 0;
   }
 
   /* --- VIEWPORT PANNELLING SIDE MENU (DARK THEME & FIXED HIGHEST Z-INDEX) --- */
   .main-nav {
     position: fixed !important;
     top: 0;
-    right: -100%; /* Sits cleanly offscreen right side edge */
+    right: -100%;
     left: auto;
-    width: 280px;
+    width: min(280px, 85vw);
     height: 100vh !important;
-    
-    /* Sleek, light-shaded black background (Charcoal Dark Theme) */
-    background: #fff !important; 
-    border-left: 1px  !important; 
+    background: #fff !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.08) !important;
     border-top: none !important;
-    
-    /* FIXED STACKING CONTEXT: Sitting at absolute top level beats the backdrop barrier */
-    /* z-index: 1000000 !important;  */
-    
     display: block !important;
     max-height: none !important;
     opacity: 0;
     overflow-y: auto;
     transition: transform .3s ease-in-out, opacity .3s ease-in-out !important;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
   }
 
   /* Triggered Slide Execution Class */
@@ -1845,7 +1844,7 @@ footer h3 {
     padding: var(--space-md) var(--space-lg);
     border-radius: 0;
     font-size: 0.95rem;
-    border-bottom: 1px ;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     color: var(--color-primary);
     text-decoration: none;
   }
@@ -2024,16 +2023,162 @@ footer h3 {
     border-radius: 0;
   }
 
-  .hero h1 { font-size: 1.3rem; }
-  .hero h2 { font-size: 0.85rem; }
+  .hero h1 {
+    font-size: 1.3rem;
+  }
+
+  .hero h2 {
+    font-size: 0.85rem;
+  }
 
   .animal_wrapper {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: var(--space-md);
   }
 
-  .animal img { height: 150px; }
-  .animal h1 { font-size: 0.85rem; }
-  .animal p { font-size: 0.9rem; }
-  .animal a { font-size: 0.8rem; padding: var(--space-sm) var(--space-md); }
+  .animal img {
+    height: 150px;
+  }
+
+  .animal h1 {
+    font-size: 0.85rem;
+  }
+
+  .animal p {
+    font-size: 0.9rem;
+  }
+
+  .animal a {
+    font-size: 0.8rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .hero {
+    padding: 60px 20px;
+  }
+
+  .categories_section,
+  .product_section,
+  .about-section,
+  .n,
+  .get {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .hero-content,
+  .hero-visual {
+    max-width: 100%;
+  }
+
+  .hero .btn,
+  .hero .btn-ghost {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .categories_grid,
+  .product-grid,
+  .animal_wrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 12px 0;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+
+  .search-trigger {
+    display: block;
+  }
+
+  .categories_grid,
+  .product-grid,
+  .animal_wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 1.4rem;
+  }
+
+  .hero h2 {
+    font-size: 0.95rem;
+  }
+
+  .product_section > h1,
+  .categories_section h1,
+  .about_h1 {
+    font-size: 1.3rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .cart-link,
+  .wishlist-link {
+    font-size: 1rem;
+  }
+
+  .hero {
+    padding: 40px 12px;
+  }
+
+  .hero .btn,
+  .hero .btn-ghost {
+    max-width: none;
+  }
+
+  .product-card img {
+    height: 180px;
+  }
+
+  .category_card h2 {
+    font-size: 0.9rem;
+  }
+
+  .about-section,
+  .product_section,
+  .categories_section {
+    padding: 24px 12px;
+  }
 }

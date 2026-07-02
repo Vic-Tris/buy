@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Marketplace Deck — BuyIt</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/admin.css">
-    <script src="./js/main.js?v=2" defer></script>
-    <script src="./js/admin.js?v=2" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Marketplace Deck — BuyIt</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="./css/style.css">    <link rel="stylesheet" href="./css/admin.css">
+<script src="./js/admin/storage.js" defer></script>
+<script src="./js/admin/security.js" defer></script>
+<script src="./js/admin/toast.js" defer></script>
+<script src="./js/admin/modal.js" defer></script>
+<script src="./js/admin/utils.js" defer></script>
+<script src="./js/admin/ui.js" defer></script>
+<script src="./js/admin/admin.js" defer></script>
 </head>
 <body>
     <div class="design">
-        <header class="site-header" id="global-header"></header>
+       <!-- DEDICATED MANAGEMENT UTILITY TOPBAR -->
+<header class="admin-topbar">
+    <div class="topbar-left">
+        <span class="admin-brand">
+            <i class="fa-solid fa-gauge-high"></i> BuyIt <span class="badge">Console</span>
+        </span>
+    </div>
+    <div><ul> <li><a href="index.html">Home</a></li></ul></div>
+    <div class="topbar-right">
+        <div class="operator-profile">
+            <i class="fa-solid fa-user-shield"></i>
+            <span id="active-operator-label" class="operator-name">Secured Node</span>
+        </div>
+        <button id="admin-logout" class="admin-logout-btn" title="Terminate Secure Session">
+            <i class="fa-solid fa-right-from-bracket"></i> Clear Session
+        </button>
+    </div>
+</header>
         <div class="nav-overlay" id="nav-overlay"></div>
 
         <main class="admin-container">
@@ -133,7 +154,16 @@
             </div>
         </div> 
 
-        <footer id="global-footer"></footer>
+        <!-- SYSTEM CONTROL FOOTNOTE -->
+<footer class="admin-system-footer">
+    <div class="footer-content">
+        <p>&copy; 2026 BuyIt Ledger System &bull; Operational Control Instance &bull; Vercel Secure Node Deployment</p>
+        <div class="system-status">
+            <span class="status-indicator-dot"></span>
+            <span class="status-text">All Systems Operational</span>
+        </div>
+    </div>
+</footer>
     </div>
 </body>
 </html>
