@@ -143,4 +143,24 @@
         grid-template-columns:1fr;
     }
 
+    .checkout-form,
+    .order-summary {
+        padding: 22px;
+    }
+
+}
+
+@media(max-width:480px){
+    .checkout-container {
+        padding: 16px;
+    }
+
+    .coupon-box {
+        flex-direction: column;
+    }
+
+    .coupon-box button,
+    #place-order-btn {
+        width: 100%;
+    }
 }

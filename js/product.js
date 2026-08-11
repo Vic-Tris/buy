@@ -40,6 +40,16 @@ const loadUnifiedProductCatalog = (jsonBaseProducts) => {
     document.getElementById("product-price").textContent = typeof product.price === "number" ? "₦" + product.price.toLocaleString() : product.price;
     document.getElementById("product-image").src = product.image;
     document.getElementById("product-image").alt = product.name;
+
+    const productMeta = document.getElementById("product-meta");
+    if (productMeta) {
+        const categoryLabel = String(product.category || "Marketplace").replace(/_/g, " ");
+        const stockLabel = Number(product.stock || 0) > 0 ? "In stock" : "Limited stock";
+        productMeta.innerHTML = `
+            <span class="meta-pill">${categoryLabel}</span>
+            <span class="meta-pill">${stockLabel}</span>
+        `;
+    }
     
     // Check if description exists (custom products might skip descriptions)
     const descEl = document.getElementById("product-description");
