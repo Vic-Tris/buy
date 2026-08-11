@@ -25,7 +25,7 @@ htmlFiles.forEach(file => {
     const html = fs.readFileSync(file, "utf8");
 
     const cardRegex =
-        /<div class="animal">([\s\S]*?)<\/div>/g;
+        /<div class="product">([\s\S]*?)<\/div>/g;
 
     let match;
 

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Render matching item objects cleanly using your existing shop grid layout styles!
             gridContainer.innerHTML = favoriteProducts.map(product => `
-                <div class="animal" id="wish-card-${product.id}">
+                <div class="product" id="wish-card-${product.id}">
                     <div style="position: relative;">
                         <img src="${product.image}" alt="${product.name}">
                         <button onclick="removeWishlistItem('${product.id}', event)" style="position: absolute; top: 10px; right: 10px; background: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: #ec4899; font-size: 1rem; display:flex; align-items:center; justify-content:center;">

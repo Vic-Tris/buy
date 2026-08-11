@@ -896,7 +896,7 @@ textarea {
 }
 
 /* Product Grid */
-.animal_wrapper {
+.product_wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: var(--space-lg);
@@ -906,7 +906,7 @@ textarea {
 }
 
 /* Product Card */
-.animal {
+.product {
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -916,19 +916,19 @@ textarea {
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.animal:hover {
+.product:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
 
-.animal img {
+.product img {
   width: 100%;
   height: 200px;
   object-fit: cover;
   background-color: var(--color-bg);
 }
 
-.animal h1 {
+.product h1 {
   font-size: 0.95rem;
   font-weight: 600;
   padding: var(--space-md) var(--space-md) var(--space-xs);
@@ -936,14 +936,14 @@ textarea {
   color: var(--color-text);
 }
 
-.animal p {
+.product p {
   font-size: 1rem;
   font-weight: 700;
   color: var(--color-primary);
   padding: 0 var(--space-md);
 }
 
-.animal a {
+.product a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -963,18 +963,18 @@ textarea {
   text-decoration: none;
 }
 
-.animal a:hover {
+.product a:hover {
   background-color: var(--color-primary-dark);
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
 }
 
-.animal a:focus {
+.product a:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-.animal a:active {
+.product a:active {
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(34, 197, 94, 0.1);
 }
@@ -2031,24 +2031,24 @@ footer h3 {
     font-size: 0.85rem;
   }
 
-  .animal_wrapper {
+  .product_wrapper {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: var(--space-md);
   }
 
-  .animal img {
+  .product img {
     height: 150px;
   }
 
-  .animal h1 {
+  .product h1 {
     font-size: 0.85rem;
   }
 
-  .animal p {
+  .product p {
     font-size: 0.9rem;
   }
 
-  .animal a {
+  .product a {
     font-size: 0.8rem;
     padding: var(--space-sm) var(--space-md);
   }
@@ -2097,7 +2097,7 @@ footer h3 {
 
   .categories_grid,
   .product-grid,
-  .animal_wrapper {
+  .product_wrapper {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -2117,7 +2117,7 @@ footer h3 {
 
   .categories_grid,
   .product-grid,
-  .animal_wrapper {
+  .product_wrapper {
     grid-template-columns: 1fr;
   }
 
