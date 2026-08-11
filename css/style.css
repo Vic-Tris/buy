@@ -808,11 +808,13 @@ textarea {
 }
 
 .hero-panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
-  gap: clamp(1.25rem, 2.3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
   align-items: center;
   width: min(1120px, 100%);
+  margin:0 auto;
 }
 
 .hero-content {
@@ -888,6 +890,9 @@ textarea {
 }
 
 .hero-side-card {
+  width:auto;
+  text-align: center;
+  max-width: 480px;
   background: rgba(255,255,255,0.86);
   border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: var(--radius-lg);
