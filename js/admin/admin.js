@@ -53,14 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Access Granted. Activating Admin Console Workspace...");
 
-    const adminLogoutBtn = document.getElementById("admin-logout");
+    const adminLogoutBtn = document.getElementById("admin-logout-sidebar");
+    const adminLogoutTopbarBtn = document.getElementById("admin-logout-topbar");
+    const logoutAdmin = () => {
+        const activeUser = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER") || "null");
+        localStorage.removeItem("BUYIT_CURRENT_USER");
+        localStorage.removeItem("BUYIT_ADMIN");
+        recordActivity("Admin logout", activeUser ? `Signed out ${activeUser.name || activeUser.email}` : "Signed out", activeUser?.name || "Administrator");
+        window.location.href = "login.html";
+    };
     if (adminLogoutBtn) {
-        adminLogoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("BUYIT_CURRENT_USER");
-            localStorage.removeItem("BUYIT_ADMIN");
-            alert("Logged out successfully.");
-            window.location.href = "login.html";
-        });
+        adminLogoutBtn.addEventListener("click", logoutAdmin);
+    }
+    if (adminLogoutTopbarBtn) {
+        adminLogoutTopbarBtn.addEventListener("click", logoutAdmin);
     }
 
     // ==========================================
@@ -69,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let historicalOrders = JSON.parse(localStorage.getItem("BUYIT_ORDERS")) || [];
     let customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
     let baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
+    let inventoryState = null;
     
     // Fallback load if baseline data isn't in LocalStorage yet
     if (baseProducts.length === 0 && window.allProductsData) { 
@@ -92,18 +99,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnalytics = document.getElementById("tab-analytics");
     const btnProducts = document.getElementById("tab-products");
     const btnOrders = document.getElementById("tab-orders");
+    const btnActivity = document.getElementById("tab-activity");
     const btnSettings = document.getElementById("tab-settings");
 
     // ==========================================
     // 3. METRICS & COUNTERS AGGREGATION UTILITIES
     // ==========================================
+    function parsePrice(value) {
+        if (typeof value === "number") return value;
+        if (typeof value === "string") {
+            const cleaned = value.replace(/[^0-9.]/g, "");
+            const parsed = Number(cleaned);
+            return Number.isFinite(parsed) ? parsed : 0;
+        }
+        return 0;
+    }
+
     function calculateSystemMetrics() {
-        const totalRevenue = historicalOrders.reduce((sum, order) => sum + (order.total || 0), 0);
-        const unifiedProductsCount = baseProducts.length + customProducts.length; 
+        const totalRevenue = historicalOrders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+        const unifiedProductsCount = baseProducts.length + customProducts.length;
+        const lowStock = [...baseProducts, ...customProducts].filter((product) => Number(product.stock || 0) <= 5).length;
 
         if (revDisplay) revDisplay.textContent = "₦" + totalRevenue.toLocaleString();
         if (transDisplay) transDisplay.textContent = historicalOrders.length;
         if (prodDisplay) prodDisplay.textContent = unifiedProductsCount;
+
+        document.getElementById("adm-low-stock")?.remove();
+        if (lowStock > 0) {
+            const statStrip = document.querySelector(".admin-stats-strip");
+            if (statStrip) {
+                const badge = document.createElement("div");
+                badge.className = "astat-card";
+                badge.id = "adm-low-stock";
+                badge.innerHTML = `<span class="astat-num">${lowStock}</span><span class="astat-label">Low / Out of Stock</span>`;
+                statStrip.appendChild(badge);
+            }
+        }
     }
 
     // Initialize metrics globally on boot
@@ -139,18 +170,149 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showProductsTab() {
         setActiveTabButton(btnProducts);
-        
-        // Reload fresh snapshots from storage
+
         baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || baseProducts;
         customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
         const totalInventory = [...baseProducts, ...customProducts];
+        if (!inventoryState) {
+            inventoryState = {
+                search: "",
+                category: "",
+                price: "",
+                type: "",
+                sort: "newest",
+                page: 1,
+                pageSize: 20,
+                selectedIds: []
+            };
+        }
+
+        const normalizeProduct = (product) => ({
+            ...product,
+            normalizedPrice: parsePrice(product.price),
+            normalizedCategory: String(product.category || "").toLowerCase(),
+            normalizedName: String(product.name || "").toLowerCase(),
+            normalizedId: String(product.id || ""),
+            stock: Number(product.stock || 0),
+            featured: Boolean(product.featured),
+            type: String(product.id || "").includes("CUSTOM") ? "custom" : "base",
+            dateAdded: product.dateAdded || product.addedAt || ""
+        });
+
+        const normalizedInventory = totalInventory.map(normalizeProduct);
+
+        const getFilteredInventory = () => {
+            const keyword = inventoryState.search.toLowerCase().trim();
+            const category = inventoryState.category;
+            const price = inventoryState.price;
+            const type = inventoryState.type;
+
+            let subset = normalizedInventory.filter((product) => {
+                const matchesSearch = !keyword || [product.name, product.category, product.id, product.description || "", product.sku || ""].some((field) => String(field).toLowerCase().includes(keyword));
+                const matchesCategory = !category || product.normalizedCategory === category;
+                let matchesPrice = true;
+                if (price === "low") matchesPrice = product.normalizedPrice < 5000;
+                else if (price === "mid") matchesPrice = product.normalizedPrice >= 5000 && product.normalizedPrice <= 20000;
+                else if (price === "high") matchesPrice = product.normalizedPrice > 20000;
+                let matchesType = true;
+                if (type === "base") matchesType = product.type === "base";
+                else if (type === "custom") matchesType = product.type === "custom";
+                return matchesSearch && matchesCategory && matchesPrice && matchesType;
+            });
+
+            subset = subset.sort((a, b) => {
+                if (inventoryState.sort === "name-asc") return a.name.localeCompare(b.name);
+                if (inventoryState.sort === "name-desc") return b.name.localeCompare(a.name);
+                if (inventoryState.sort === "price-asc") return a.normalizedPrice - b.normalizedPrice;
+                if (inventoryState.sort === "price-desc") return b.normalizedPrice - a.normalizedPrice;
+                if (inventoryState.sort === "oldest") return String(a.dateAdded || "").localeCompare(String(b.dateAdded || ""));
+                return String(b.dateAdded || "").localeCompare(String(a.dateAdded || ""));
+            });
+            return subset;
+        };
+
+        const attachCheckboxListeners = () => {
+            document.querySelectorAll(".inventory-select-checkbox").forEach((checkbox) => {
+                checkbox.addEventListener("change", () => {
+                    const id = checkbox.dataset.id;
+                    if (checkbox.checked) {
+                        if (!inventoryState.selectedIds.includes(id)) inventoryState.selectedIds.push(id);
+                    } else {
+                        inventoryState.selectedIds = inventoryState.selectedIds.filter((item) => item !== id);
+                    }
+                });
+            });
+        };
+
+        const renderTable = () => {
+            const filteredInventory = getFilteredInventory();
+            const totalPages = Math.max(1, Math.ceil(filteredInventory.length / inventoryState.pageSize));
+            if (inventoryState.page > totalPages) inventoryState.page = totalPages;
+            const startIndex = (inventoryState.page - 1) * inventoryState.pageSize;
+            const visibleItems = filteredInventory.slice(startIndex, startIndex + inventoryState.pageSize);
+            const tbody = document.getElementById("inventory-table-body");
+            const resultsLabel = document.getElementById("inventory-results-label");
+            const pagination = document.getElementById("inventory-pagination");
+            const selectAll = document.getElementById("inventory-select-all");
+            if (tbody) {
+                if (visibleItems.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="admin-empty-state">No products matched the current search and filters.</td></tr>`;
+                } else {
+                    tbody.innerHTML = visibleItems.map((product) => {
+                        const isCustom = product.type === "custom";
+                        const isSelected = inventoryState.selectedIds.includes(product.id);
+                        return `
+                            <tr>
+                                <td><input type="checkbox" class="inventory-select-checkbox" data-id="${product.id}" ${isSelected ? "checked" : ""}></td>
+                                <td><img src="${product.image || './images/default-placeholder.jpg'}" class="thumb-inline" onerror="this.src='./images/default-placeholder.jpg'"></td>
+                                <td>
+                                    <strong>${product.name}</strong>
+                                    <div class="admin-pill ${isCustom ? "success" : ""}">${isCustom ? "Custom" : "Base"}</div>
+                                    <br><span style="font-size:0.7rem; color:#94a3b8; font-family:monospace;">ID: ${product.id}</span>
+                                </td>
+                                <td><span style="background:#e2e8f0; padding:3px 8px; border-radius:6px; font-size:.75rem; text-transform: capitalize;">${(product.category || "unknown").replace(/_/g, " ")}</span></td>
+                                <td>₦${parsePrice(product.price).toLocaleString()}</td>
+                                <td>
+                                    <div class="bulk-actions">
+                                        <button onclick="editProductSKU('${product.id}')" class="row-action-btn btn-edit"><i class="fa-solid fa-pen"></i> Edit</button>
+                                        <button onclick="deleteProductSKU('${product.id}')" class="row-action-btn btn-del"><i class="fa-solid fa-trash-can"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }).join("");
+                }
+            }
+            if (resultsLabel) resultsLabel.textContent = `Showing ${visibleItems.length} of ${filteredInventory.length} products`;
+            if (pagination) pagination.innerHTML = `
+                <button ${inventoryState.page <= 1 ? "disabled" : ""} onclick="changeInventoryPage(${inventoryState.page - 1})">Previous</button>
+                <span class="page-pill">Page ${inventoryState.page} / ${totalPages}</span>
+                <button ${inventoryState.page >= totalPages ? "disabled" : ""} onclick="changeInventoryPage(${inventoryState.page + 1})">Next</button>
+            `;
+            if (selectAll) selectAll.checked = visibleItems.length > 0 && visibleItems.every((product) => inventoryState.selectedIds.includes(product.id));
+            attachCheckboxListeners();
+        };
+
+        const refreshInventory = () => {
+            baseProducts = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || baseProducts;
+            customProducts = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
+            renderTable();
+            calculateSystemMetrics();
+        };
+
+        const applyInventoryFilters = () => {
+            inventoryState.page = 1;
+            renderTable();
+        };
 
         if (mainPane) {
             mainPane.innerHTML = `
                 <div class="panel-action-bar">
                     <div class="inventory-toolbar" style="width:100%;">
-                        <h3>Global Catalog & Inventory Stock</h3>
-                        <div class="inventory-actions" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+                        <div class="inventory-toolbar-head">
+                            <h3>Global Catalog & Inventory Stock</h3>
+                            <button class="action-trigger-btn" id="add-new-sku-trigger"><i class="fa-solid fa-plus"></i> Add Product</button>
+                        </div>
+                        <div class="inventory-filters">
                             <input type="text" id="inventory-search" class="inventory-search" placeholder="Search product, SKU or category..." style="padding:8px; border:1px solid #cbd5e1; border-radius:6px; min-width:220px;">
                             <select id="filter-category" style="padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
                                 <option value="">All Categories</option>
@@ -189,109 +351,175 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <option value="base">Base Products</option>
                                 <option value="custom">Custom Products</option>
                             </select>
-                            <button class="action-trigger-btn" id="add-new-sku-trigger"><i class="fa-solid fa-plus"></i> Add Product</button>
+                            <select id="filter-sort" style="padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
+                                <option value="newest">Newest</option>
+                                <option value="oldest">Oldest</option>
+                                <option value="name-asc">Name A-Z</option>
+                                <option value="name-desc">Name Z-A</option>
+                                <option value="price-asc">Price low to high</option>
+                                <option value="price-desc">Price high to low</option>
+                            </select>
+                            <select id="filter-page-size" style="padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
+                                <option value="20">20 per page</option>
+                                <option value="50">50 per page</option>
+                                <option value="100">100 per page</option>
+                            </select>
                         </div>
+                        <div class="inventory-results-bar">
+                            <div id="inventory-results-label">Showing 0 of 0 products</div>
+                            <div class="bulk-actions">
+                                <label><input type="checkbox" id="inventory-select-all"> Select visible</label>
+                                <button id="inventory-clear-selection">Clear</button>
+                                <button id="inventory-bulk-delete" class="danger-btn">Bulk Delete</button>
+                                <button id="inventory-clear-filters" class="inventory-clear-btn">Clear Filters</button>
+                            </div>
+                        </div>
+                        <div id="inventory-pagination" class="inventory-pagination"></div>
                     </div>
                 </div>
-                
                 <div class="table-scroll-wrapper" style="overflow-x: auto; width:100%; margin-top:15px;">
                     <table class="admin-table">
                         <thead>
                             <tr>
+                                <th><input type="checkbox" id="inventory-select-all-head" disabled></th>
                                 <th>Image</th>
                                 <th>Product Item Name</th>
                                 <th>Category</th>
-                                <th>Base Price</th>
+                                <th>Price</th>
                                 <th>Operations</th>
                             </tr>
                         </thead>
-                        <tbody id="inventory-table-body">
-                            </tbody>
+                        <tbody id="inventory-table-body"></tbody>
                     </table>
                 </div>
             `;
 
-            // Isolated Local Table Body UI Builder
-            const updateTableUI = (filteredItems) => {
-                const tbody = document.getElementById("inventory-table-body");
-                if (!tbody) return;
-
-                if (filteredItems.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:#64748b;">No products match selected search parameters.</td></tr>`;
-                    return;
-                }
-
-                tbody.innerHTML = filteredItems.map(p => {
-                    const isCustom = String(p.id).includes("CUSTOM");
-                    return `
-                        <tr>
-                            <td><img src="${p.image}" class="thumb-inline" onerror="this.src='./images/default-placeholder.jpg'"></td>
-                            <td>
-                                <strong>${p.name}</strong>
-                                <span style="font-size:.7rem; padding:2px 6px; border-radius:4px; margin-left:6px; ${isCustom ? 'background:#dcfce7; color:#166534;' : 'background:#f1f5f9; color:#475569;'}">
-                                    ${isCustom ? 'Custom' : 'Base'}
-                                </span>
-                                <br><span style="font-size:0.7rem; color:#94a3b8; font-family:monospace;">ID: ${p.id}</span>
-                            </td>
-                            <td><span style="background:#e2e8f0; padding:3px 8px; border-radius:6px; font-size:.75rem; text-transform: capitalize;">${p.category.replace('_', ' ')}</span></td>
-                            <td>₦${Number(p.price).toLocaleString()}</td>
-                            <td>
-                                <button onclick="deleteProductSKU('${p.id}')" class="row-action-btn btn-del">
-                                    <i class="fa-solid fa-trash-can"></i> Remove Stock
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                }).join("");
+            const setInputValues = () => {
+                const searchInput = document.getElementById("inventory-search");
+                const categoryInput = document.getElementById("filter-category");
+                const priceInput = document.getElementById("filter-price");
+                const typeInput = document.getElementById("filter-type");
+                const sortInput = document.getElementById("filter-sort");
+                const pageSizeInput = document.getElementById("filter-page-size");
+                if (searchInput) searchInput.value = inventoryState.search;
+                if (categoryInput) categoryInput.value = inventoryState.category;
+                if (priceInput) priceInput.value = inventoryState.price;
+                if (typeInput) typeInput.value = inventoryState.type;
+                if (sortInput) sortInput.value = inventoryState.sort;
+                if (pageSizeInput) pageSizeInput.value = inventoryState.pageSize;
             };
 
-            // Master Composite Filtering Loop Function
-            const runPipelineFiltering = () => {
-                const keyword = document.getElementById("inventory-search")?.value.toLowerCase().trim() || "";
-                const category = document.getElementById("filter-category")?.value || "";
-                const price = document.getElementById("filter-price")?.value || "";
-                const type = document.getElementById("filter-type")?.value || "";
-
-                const subset = totalInventory.filter(product => {
-                    const matchesSearch = !keyword || 
-                        product.name.toLowerCase().includes(keyword) ||
-                        product.category.toLowerCase().includes(keyword) ||
-                        String(product.id).toLowerCase().includes(keyword);
-
-                    const matchesCategory = !category || product.category === category;
-
-                    let matchesPrice = true;
-                    const numPrice = Number(product.price);
-                    if (price === "low") matchesPrice = numPrice < 5000;
-                    else if (price === "mid") matchesPrice = numPrice >= 5000 && numPrice <= 20000;
-                    else if (price === "high") matchesPrice = numPrice > 20000;
-
-                    let matchesType = true;
-                    if (type === "base") matchesType = !String(product.id).includes("CUSTOM");
-                    else if (type === "custom") matchesType = String(product.id).includes("CUSTOM");
-
-                    return matchesSearch && matchesCategory && matchesPrice && matchesType;
+            const wireInventoryControls = () => {
+                ["inventory-search", "filter-category", "filter-price", "filter-type", "filter-sort", "filter-page-size"].forEach((id) => {
+                    document.getElementById(id)?.addEventListener("input", () => {
+                        if (id === "filter-page-size") inventoryState.pageSize = Number(document.getElementById(id).value || 20);
+                        if (id === "inventory-search") inventoryState.search = document.getElementById(id).value;
+                        if (id === "filter-category") inventoryState.category = document.getElementById(id).value;
+                        if (id === "filter-price") inventoryState.price = document.getElementById(id).value;
+                        if (id === "filter-type") inventoryState.type = document.getElementById(id).value;
+                        if (id === "filter-sort") inventoryState.sort = document.getElementById(id).value;
+                        applyInventoryFilters();
+                    });
                 });
-
-                updateTableUI(subset);
+                document.getElementById("filter-category")?.addEventListener("change", () => applyInventoryFilters());
+                document.getElementById("filter-price")?.addEventListener("change", () => applyInventoryFilters());
+                document.getElementById("filter-type")?.addEventListener("change", () => applyInventoryFilters());
+                document.getElementById("filter-sort")?.addEventListener("change", () => applyInventoryFilters());
+                document.getElementById("filter-page-size")?.addEventListener("change", () => applyInventoryFilters());
+                document.getElementById("inventory-clear-filters")?.addEventListener("click", () => {
+                    inventoryState.search = "";
+                    inventoryState.category = "";
+                    inventoryState.price = "";
+                    inventoryState.type = "";
+                    inventoryState.sort = "newest";
+                    inventoryState.page = 1;
+                    inventoryState.pageSize = 20;
+                    inventoryState.selectedIds = [];
+                    setInputValues();
+                    renderTable();
+                });
+                document.getElementById("inventory-clear-selection")?.addEventListener("click", () => {
+                    inventoryState.selectedIds = [];
+                    renderTable();
+                });
+                document.getElementById("inventory-bulk-delete")?.addEventListener("click", () => {
+                    if (!inventoryState.selectedIds.length) {
+                        Toast.warning("Select at least one product first.");
+                        return;
+                    }
+                    const confirmed = confirm(`Delete ${inventoryState.selectedIds.length} selected product(s)?`);
+                    if (!confirmed) return;
+                    const idsToDelete = new Set(inventoryState.selectedIds);
+                    const nextCustom = customProducts.filter((product) => !idsToDelete.has(String(product.id)));
+                    const nextBase = baseProducts.filter((product) => !idsToDelete.has(String(product.id)));
+                    customProducts = nextCustom;
+                    baseProducts = nextBase;
+                    localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
+                    localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(baseProducts));
+                    inventoryState.selectedIds = [];
+                    recordActivity("Bulk product deletion", `Deleted ${idsToDelete.size} product(s)`, JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER") || "null")?.name || "Administrator");
+                    Toast.success("Selected products deleted.");
+                    refreshInventory();
+                });
+                document.getElementById("inventory-select-all")?.addEventListener("change", (event) => {
+                    const checked = event.target.checked;
+                    const visibleIds = getFilteredInventory().slice(0, inventoryState.pageSize).map((product) => product.id);
+                    inventoryState.selectedIds = checked ? [...new Set([...inventoryState.selectedIds, ...visibleIds])] : inventoryState.selectedIds.filter((id) => !visibleIds.includes(id));
+                    renderTable();
+                });
             };
 
-            // Bind Event Listeners immediately to the structural layout controls
-            ["inventory-search", "filter-category", "filter-price", "filter-type"].forEach(id => {
-                document.getElementById(id)?.addEventListener("input", runPipelineFiltering);
-                document.getElementById(id)?.addEventListener("change", runPipelineFiltering);
-            });
+            setInputValues();
+            wireInventoryControls();
+            renderTable();
 
-            // Initial baseline draw execution
-            updateTableUI(totalInventory);
-
-            // Set up open action modal handler cleanly
             document.getElementById("add-new-sku-trigger").onclick = () => {
                 pForm.reset();
                 document.getElementById("edit-product-id").value = "";
+                document.getElementById("prod-sku").value = "";
+                document.getElementById("prod-stock").value = "0";
+                document.getElementById("prod-type").value = "custom";
+                document.getElementById("prod-featured").checked = false;
+                document.getElementById("prod-description").value = "";
+                document.getElementById("prod-img-file").value = "";
+                document.getElementById("prod-img").value = "";
                 mTitle.textContent = "Inject New Product SKU";
                 pModal.classList.add("open");
             };
+        }
+    }
+
+    function showActivityTab() {
+        setActiveTabButton(btnActivity);
+
+        const activityEntries = JSON.parse(localStorage.getItem("BUYIT_ACTIVITY_LOG") || "[]");
+
+        if (mainPane) {
+            mainPane.innerHTML = `
+                <div class="panel-action-bar"><h3>Administrative Activity Log</h3></div>
+                <div class="table-scroll-wrapper" style="overflow-x:auto; width:100%; margin-top:15px;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>Operator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${activityEntries.length === 0 ? `<tr><td colspan="4" class="admin-empty-state">No activity has been recorded yet.</td></tr>` : activityEntries.map((entry) => `
+                                <tr>
+                                    <td>${entry.date || "—"}</td>
+                                    <td><strong>${entry.action || "Activity"}</strong></td>
+                                    <td>${entry.details || "—"}</td>
+                                    <td>${entry.admin || "Administrator"}</td>
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         }
     }
 
@@ -451,22 +679,41 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // 5. BUSINESS LOGIC STORAGE WRITERS
     // ==========================================
+    function getCurrentAdminName() {
+        const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER") || "null");
+        return currentSession?.name || currentSession?.email || "Administrator";
+    }
+
+    const getProductId = (providedId) => {
+        if (providedId && providedId.trim()) return providedId.trim();
+        return `CUSTOM-${Date.now()}`;
+    };
+
+    const validateProductPayload = (productData) => {
+        if (!productData.name || !productData.name.trim()) return "Product name is required.";
+        if (Number(productData.price) < 0) return "Price cannot be negative.";
+        if (!productData.category) return "Category is required.";
+        if (Number(productData.stock) < 0) return "Stock cannot be negative.";
+        if (!productData.image) return "Image source is required.";
+        return "";
+    };
+
     if (pForm) {
         pForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
             const authInput = document.getElementById("prod-admin-auth").value;
-            const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER"));
+            const currentSession = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER") || "null");
             
             let adminRegistry = JSON.parse(localStorage.getItem("BUYIT_ADMINS_REGISTRY")) || [
                 { email: "admin@fevicstore.com", name: "Administrator", password: "admin123" }
             ];
 
-            const activeAdminRecord = adminRegistry.find(a => a.email.toLowerCase() === currentSession.email.toLowerCase());
+            const activeAdminRecord = adminRegistry.find(a => a.email.toLowerCase() === currentSession?.email?.toLowerCase());
             const realPassword = activeAdminRecord ? activeAdminRecord.password : "admin123";
 
             if (authInput !== realPassword) {
-                alert("Security Authorization Failed: Invalid admin confirmation password.");
+                Toast.error("Security Authorization Failed: Invalid admin confirmation password.");
                 return;
             }
 
@@ -475,22 +722,56 @@ document.addEventListener("DOMContentLoaded", () => {
             const category = document.getElementById("prod-category").value;
             const urlInput = document.getElementById("prod-img").value.trim();
             const fileInput = document.getElementById("prod-img-file");
+            const stock = parseInt(document.getElementById("prod-stock").value || "0", 10);
+            const sku = document.getElementById("prod-sku").value.trim();
+            const description = document.getElementById("prod-description").value.trim();
+            const featured = document.getElementById("prod-featured").checked;
+            const productType = document.getElementById("prod-type").value || "custom";
+            const editProductId = document.getElementById("edit-product-id").value;
+
+            const validationMessage = validateProductPayload({ name, price, category, image: urlInput, stock });
+            if (validationMessage) {
+                Toast.error(validationMessage);
+                return;
+            }
 
             const saveProductSKU = (finalImageSource) => {
-                const newSku = {
-                    id: "CUSTOM-" + Math.floor(1000 + Math.random() * 9000),
-                    name: name,
-                    price: price,
+                const payload = {
+                    id: editProductId || getProductId(sku),
+                    sku: sku || (editProductId || `SKU-${Date.now()}`),
+                    name,
+                    price,
                     image: finalImageSource || "./images/default-placeholder.jpg",
-                    category: category
+                    category,
+                    stock,
+                    featured,
+                    description,
+                    type: productType,
+                    dateAdded: new Date().toISOString(),
+                    productType: productType
                 };
 
-                customProducts.push(newSku);
+                if (editProductId) {
+                    const sourceList = String(editProductId).includes("CUSTOM") ? customProducts : baseProducts;
+                    const itemIndex = sourceList.findIndex((item) => String(item.id) === String(editProductId));
+                    if (itemIndex !== -1) {
+                        sourceList.splice(itemIndex, 1);
+                    }
+                    const targetList = productType === "base" ? baseProducts : customProducts;
+                    targetList.push(payload);
+                    recordActivity("Product edited", `Updated ${payload.name}`, getCurrentAdminName());
+                } else {
+                    const list = productType === "base" ? baseProducts : customProducts;
+                    list.push(payload);
+                    recordActivity("Product added", `Added ${payload.name}`, getCurrentAdminName());
+                }
+
+                localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(baseProducts));
                 localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
-                
                 if (pModal) pModal.classList.remove("open");
                 pForm.reset();
-                
+                document.getElementById("edit-product-id").value = "";
+                Toast.success(editProductId ? "Product updated." : "Product added.");
                 calculateSystemMetrics();
                 showProductsTab();
             };
@@ -507,33 +788,65 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    window.editProductSKU = function(id) {
+        const allProducts = [...baseProducts, ...customProducts];
+        const product = allProducts.find((item) => String(item.id) === String(id));
+        if (!product) return;
+        document.getElementById("edit-product-id").value = product.id;
+        document.getElementById("prod-name").value = product.name || "";
+        document.getElementById("prod-price").value = product.price || "";
+        document.getElementById("prod-category").value = product.category || "fresh";
+        document.getElementById("prod-sku").value = product.sku || product.id || "";
+        document.getElementById("prod-stock").value = product.stock || 0;
+        document.getElementById("prod-description").value = product.description || "";
+        document.getElementById("prod-featured").checked = Boolean(product.featured);
+        document.getElementById("prod-type").value = String(product.id).includes("CUSTOM") ? "custom" : "base";
+        document.getElementById("prod-img").value = product.image || "";
+        document.getElementById("prod-img-file").value = "";
+        mTitle.textContent = "Edit Product SKU";
+        pModal.classList.add("open");
+    };
+
     // Expose Deletion Function Globally to Window Node Scope
     window.deleteProductSKU = function(id) {
-        if (!confirm("Are you sure you want to permanently strip this product SKU out of your active display shelves?")) return;
+        const confirmed = confirm("Delete this product? This action cannot be undone.");
+        if (!confirmed) return;
 
-        let localCustom = JSON.parse(localStorage.getItem("BUYIT_CUSTOM_PRODUCTS")) || [];
-        const initialCustomLength = localCustom.length;
-        localCustom = localCustom.filter(p => p.id.toString() !== id.toString());
-        
-        if (localCustom.length !== initialCustomLength) {
-            localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(localCustom));
-            customProducts = localCustom;
+        const customIndex = customProducts.findIndex((p) => String(p.id) === String(id));
+        if (customIndex !== -1) {
+            const removed = customProducts.splice(customIndex, 1)[0];
+            localStorage.setItem("BUYIT_CUSTOM_PRODUCTS", JSON.stringify(customProducts));
+            recordActivity("Product deleted", `Deleted ${removed.name}`, getCurrentAdminName());
+            Toast.success("Product deleted.");
         } else {
-            let localBase = JSON.parse(localStorage.getItem("BUYIT_BASE_PRODUCTS")) || [];
-            localBase = localBase.filter(p => p.id.toString() !== id.toString());
-            localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(localBase));
-            baseProducts = localBase;
+            const baseIndex = baseProducts.findIndex((p) => String(p.id) === String(id));
+            if (baseIndex !== -1) {
+                const removed = baseProducts.splice(baseIndex, 1)[0];
+                localStorage.setItem("BUYIT_BASE_PRODUCTS", JSON.stringify(baseProducts));
+                recordActivity("Product deleted", `Deleted ${removed.name}`, getCurrentAdminName());
+                Toast.success("Product deleted.");
+            }
         }
 
-        alert("Inventory Registry updated successfully.");
         calculateSystemMetrics();
         showProductsTab();
     };
 
+    window.changeInventoryPage = function(page) {
+        if (!inventoryState) return;
+        const targetPage = Number(page);
+        if (!Number.isFinite(targetPage) || targetPage < 1) return;
+        inventoryState.page = targetPage;
+        showProductsTab();
+    };
+
     window.updateOrderStatus = function(orderIndex, newStatus) {
+        if (!historicalOrders[orderIndex]) return;
         historicalOrders[orderIndex].status = newStatus;
         localStorage.setItem("BUYIT_ORDERS", JSON.stringify(historicalOrders));
-        alert(`Order status updated to "${newStatus}" successfully!`);
+        recordActivity("Order status changed", `Order ${historicalOrders[orderIndex].orderId} -> ${newStatus}`, getCurrentAdminName());
+        Toast.success(`Order status updated to "${newStatus}".`);
+        showOrdersTab();
     };
 
     if (closePModalBtn) {
@@ -543,7 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function setActiveTabButton(targetBtn) {
-        [btnAnalytics, btnProducts, btnOrders, btnSettings].forEach(btn => btn?.classList.remove("active"));
+        [btnAnalytics, btnProducts, btnOrders, btnActivity, btnSettings].forEach(btn => btn?.classList.remove("active"));
         if (targetBtn) targetBtn.classList.add("active");
     }
 
@@ -553,6 +866,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAnalytics?.addEventListener("click", showAnalyticsTab);
     btnProducts?.addEventListener("click", showProductsTab);
     btnOrders?.addEventListener("click", showOrdersTab);
+    btnActivity?.addEventListener("click", showActivityTab);
     btnSettings?.addEventListener("click", showSettingsTab);
 
     // Initial default viewport tab trigger load

@@ -73,6 +73,18 @@ const Storage = {
 
     },
 
+    getBaseProducts() {
+
+        return this.get("BUYIT_BASE_PRODUCTS", []);
+
+    },
+
+    saveBaseProducts(products) {
+
+        this.set("BUYIT_BASE_PRODUCTS", products);
+
+    },
+
     // ==========================
     // CUSTOM PRODUCTS
     // ==========================
@@ -212,6 +224,44 @@ const Storage = {
     },
 
     // ==========================
+    // ACTIVITY LOG
+    // ==========================
+
+    getActivityLog() {
+
+        return this.get("BUYIT_ACTIVITY_LOG", []);
+
+    },
+
+    saveActivityLog(entries) {
+
+        this.set("BUYIT_ACTIVITY_LOG", entries);
+
+    },
+
+    logActivity(action, details = "", admin = null) {
+
+        const entry = {
+
+            action,
+
+            details,
+
+            admin: admin?.name || admin?.email || "Administrator",
+
+            date: new Date().toLocaleString()
+
+        };
+
+        const log = this.getActivityLog();
+
+        log.unshift(entry);
+
+        this.saveActivityLog(log.slice(0, 200));
+
+    },
+
+    // ==========================
     // ANALYTICS
     // ==========================
 
@@ -223,7 +273,7 @@ const Storage = {
 
             products:
 
-                this.getProducts().length +
+                this.getBaseProducts().length +
 
                 this.getCustomProducts().length,
 
@@ -251,7 +301,7 @@ const Storage = {
 
         return {
 
-            products: this.getProducts(),
+            products: this.getBaseProducts(),
 
             customProducts: this.getCustomProducts(),
 

@@ -1,3 +1,18 @@
+function recordActivity(action, details = "", adminName = "") {
+    try {
+        const log = JSON.parse(localStorage.getItem("BUYIT_ACTIVITY_LOG") || "[]");
+        log.unshift({
+            action,
+            details,
+            admin: adminName || "Administrator",
+            date: new Date().toLocaleString()
+        });
+        localStorage.setItem("BUYIT_ACTIVITY_LOG", JSON.stringify(log.slice(0, 200)));
+    } catch (err) {
+        console.warn("Activity log failed", err);
+    }
+}
+
 function initAuthForms() {
     if (window.buyItAuthFormsInitialized) return;
     window.buyItAuthFormsInitialized = true;
@@ -36,6 +51,7 @@ function initAuthForms() {
 
                 localStorage.setItem("BUYIT_ADMIN", JSON.stringify(adminData));
                 localStorage.setItem("BUYIT_CURRENT_USER", JSON.stringify(adminData));
+                recordActivity("Admin login", `Signed in as ${adminRecord.name}`, adminRecord.name);
 
                 alert(`Admin Login Successful. Welcome back, ${adminRecord.name}!`);
                 window.location.href = "admin.html";
@@ -246,8 +262,10 @@ window.syncHeaderAuthUI = function () {
             if (logoutBtn) {
                 logoutBtn.addEventListener("click", (e) => {
                     e.preventDefault();
+                    const activeUser = JSON.parse(localStorage.getItem("BUYIT_CURRENT_USER") || "null");
                     localStorage.removeItem("BUYIT_CURRENT_USER");
                     localStorage.removeItem("BUYIT_ADMIN");
+                    recordActivity("Admin logout", activeUser ? `Signed out ${activeUser.name || activeUser.email}` : "Signed out", activeUser?.name || "Administrator");
                     alert("Logged out successfully.");
                     window.location.href = "login.html";
                 });

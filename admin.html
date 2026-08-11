@@ -29,7 +29,7 @@
             <i class="fa-solid fa-user-shield"></i>
             <span id="active-operator-label" class="operator-name">Secured Node</span>
         </div>
-        <button id="admin-logout" class="admin-logout-btn" title="Terminate Secure Session">
+        <button id="admin-logout-topbar" class="admin-logout-btn" title="Terminate Secure Session">
             <i class="fa-solid fa-right-from-bracket"></i> Clear Session
         </button>
     </div>
@@ -57,12 +57,15 @@
     <button class="admin-menu-item" id="tab-orders">
         <i class="fa-solid fa-receipt"></i><span>Orders</span>
     </button>
+    <button class="admin-menu-item" id="tab-activity">
+        <i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span>
+    </button>
     
     <button class="admin-menu-item" id="tab-settings">
         <i class="fa-solid fa-user-gear"></i><span>Settings</span>
     </button>
 
-    <button class="admin-menu-item logout-admin-btn" id="admin-logout">
+    <button class="admin-menu-item logout-admin-btn" id="admin-logout-sidebar">
         <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
     </button>
 </nav> 
@@ -100,7 +103,31 @@
                     </div>
                     <div class="form-group">
                         <label>Price (Naira Number Value Only)</label>
-                        <input type="number" id="prod-price" required placeholder="e.g., 2500">
+                        <input type="number" id="prod-price" required min="0" placeholder="e.g., 2500">
+                    </div>
+                    <div class="form-group">
+                        <label>SKU / Product ID</label>
+                        <input type="text" id="prod-sku" placeholder="Leave blank to auto-generate">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" id="prod-stock" min="0" value="0" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Product Type</label>
+                        <select id="prod-type">
+                            <option value="custom">Custom Product</option>
+                            <option value="base">Base Product</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                            <input type="checkbox" id="prod-featured"> Featured Product
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="prod-description" rows="3" placeholder="Optional description"></textarea>
                     </div>
                     
                     <div class="form-group">
