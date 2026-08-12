@@ -793,7 +793,7 @@ textarea {
    HERO SECTION
    =================================================== */
 .hero {
-  background-image: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(240,253,244,0.9)), url(../images/background\ image.png);
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(240,253,244,0.3)), url(../images/background\ image.png);
   background-position: center;
   background-size: cover;
   min-height: 56vh;
